@@ -49,7 +49,7 @@ const props = defineProps({
         <h2>{{ props.type }}</h2>
         
         <!-- Pour une image, on utilise le binding ":" -->
-        <img :src="props.image" :alt="props.title" v-if="props.image && props.image !== 'aucune image' && props.image !== '' " />
+        <img :src="props.image" :alt="props.title" v-if="typeof props.image !== 'undefined' && props.image !== 'aucune image' && props.image !== '' " />
 
         <p>{{ props.description }}</p>
     </div>

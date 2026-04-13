@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use shweshi\OpenGraph\Facades\OpenGraphFacade as OpenGraph;
-
 class PostController extends Controller
 {
     public function create(Request $request){
