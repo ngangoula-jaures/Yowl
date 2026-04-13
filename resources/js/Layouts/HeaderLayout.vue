@@ -44,7 +44,6 @@ const showToast= ()=>{
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <!-- Barre de navigation fixe bg-gray-100-->
          <Toast/>
 
     <nav class="bg-blue-900 p-4 shadow">
