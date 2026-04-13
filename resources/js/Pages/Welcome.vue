@@ -4,8 +4,8 @@
 </template>
 
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
+import HeaderLayout from '@/Layouts/HeaderLayout.vue';
 
 // On définit le layout persistant
-defineOptions({ layout: AppLayout })
+defineOptions({ layout: HeaderLayout })
 </script>
