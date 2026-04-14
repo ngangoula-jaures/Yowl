@@ -2,30 +2,50 @@
 import HeaderLayout from '@/Layouts/HeaderLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import FileUpload from 'primevue/fileupload';
+import { ref, watch } from 'vue';
 
-defineOptions({ layout: HeaderLayout })
+defineOptions({ layout: HeaderLayout });
 
 const data = useForm({
     url: '',
     comment: ''
-})
+});
 
-const submitForm = ()=>{
-    data.post(route('post.create'),{
-            onSuccess: ()=>{
-                if(typeof props.image !== 'undefined' && 
-                props.image === 'aucune image' && props.image === ''){
-                    data.reset();
-                }
-            }
-    });
-};
 const props = defineProps({
     type: String,
     title: String,
     image: String, 
     description: String
-})
+});
+
+// Création d'une variable locale (modifiable) basée sur l'image qui vient du serveur (prop)
+const currentImage = ref(props.image);
+
+// Met à jour la variable si la prop "image" du serveur venait à changer après une navigation
+watch(() => props.image, (newImage) => {
+    currentImage.value = newImage;
+});
+
+const isImage = (url) => {
+    if (!url) return false;
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url.toLowerCase());
+};
+
+const submitForm = () => {
+    if (isImage(data.url)) {
+        // Comme c'est une image, on l'affiche directement sur la page !
+        currentImage.value = data.url;
+    } else {
+        data.post(route('post.create'),{
+            onSuccess: () => {
+                if(typeof props.image !== 'undefined' && 
+                props.image === 'aucune image' && props.image === ''){
+                    data.reset();
+                }
+            }
+        });
+    }
+};
 </script>
 
 <template>
@@ -37,7 +57,7 @@ const props = defineProps({
     </FloatLabel>
     <FileUpload class="my-3"
     mode="basic" 
-    name="img[]"
+    name="img"
     accept=".jpg, .jpeg, .png," 
     :maxFileSize="1000000" 
     v-if="typeof props.image !== 'undefined' && (props.image === 'aucune image' || props.image === '')" />
@@ -48,12 +68,12 @@ const props = defineProps({
         <h1>{{ props.title }}</h1>
         <h2>{{ props.type }}</h2>
         
-        <!-- Pour une image, on utilise le binding ":" -->
-        <img :src="props.image" :alt="props.title" v-if="typeof props.image !== 'undefined' && props.image !== 'aucune image' && props.image !== '' " />
+        <!-- On utilise la variable "currentImage" au lieu de "props.image" -->
+        <img :src="currentImage" :alt="props.title" v-if="currentImage && currentImage !== 'aucune image'" />
 
         <p>{{ props.description }}</p>
     </div>
 
-<pre>{{ $page.props }}</pre>
+<!-- <pre>{{ $page.props }}</pre> -->
 
 </template>

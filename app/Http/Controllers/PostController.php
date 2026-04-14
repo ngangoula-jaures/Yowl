@@ -9,7 +9,6 @@ class PostController extends Controller
 {
     public function create(Request $request){
         $url= $request->input('url');
-        //$file= 'dataOg.json';
         
         try{
             if(str_contains($url, 'youtube.com') || str_contains($url, 'youtu.be')){
@@ -21,9 +20,7 @@ class PostController extends Controller
                 $image = $dataOg['thumbnail_url'] ?? 'aucune image';
                 $description= $dataOg['title'] ?? 'pas de description';
             }else{
-                $dataOg= OpenGraph::fetch($url);
-            // $json= json_encode($dataOg, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            // file_put_contents($file, $json, FILE_APPEND);
+            $dataOg= OpenGraph::fetch($url);
             $type = $dataOg['type'] ?? 'aucun type';
             $title = $dataOg['title'] ?? 'sans titre';
             $image = $dataOg['image'] ?? 'aucune image';
@@ -35,7 +32,7 @@ class PostController extends Controller
             return redirect("/")->with('echec', $err);
         }
 
-        if($image = 'aucune image'){
+        if($image === 'aucune image'){
             session()->flash('echec', "Votre lien ne contient pas d'image!\nVeuillez ajouter un image svp!");
         }
         return Inertia::render('Post', [
