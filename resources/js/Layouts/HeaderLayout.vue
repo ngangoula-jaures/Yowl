@@ -43,16 +43,8 @@ const showToast= ()=>{
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100">
-         <Toast/>
-
-    <nav class="bg-blue-900 p-4 shadow">
-      <Link href="/" class="mr-4">Accueil</Link>
-      <Link href="/test">Page Test</Link>
-    </nav>
-    <!-- ZONE DYNAMIQUE (Le contenu de la page arrive ici) -->
-    <main class="p-8">
-      <slot />
-    </main>
+  <div class="bg-red-500">
+    <h1>gvgvgwvwghcvwygcgywgywv</h1>
   </div>
+  <slot />
 </template>

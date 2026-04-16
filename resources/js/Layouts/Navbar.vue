@@ -27,4 +27,9 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import HeaderLayout from '@/Layouts/HeaderLayout.vue';
+
+defineOptions({
+  layout: HeaderLayout,
+});
 </script>
