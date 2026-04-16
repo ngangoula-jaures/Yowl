@@ -1,6 +1,6 @@
 # Projet Laravel + Vue.js (Groupe)
 
-Bienvenue sur le projet ! Pour que tout le monde travaille avec la même configuration (PHP, PostgreSQL, Node), nous utilisons **Laravel Sail**.
+Bienvenue sur le projet ! Pour que tout le monde travaille avec la même configuration (PHP, PostgreSQL, Node), nous utilisons **Laravel Sail**.  
 
 ## 🛠 Prérequis
 

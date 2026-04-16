@@ -4,8 +4,9 @@
 </template>
 
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
+import Navbar from '@/Layouts/Navbar.vue';
 
-// On définit le layout persistant
-defineOptions({ layout: AppLayout })
+defineOptions({
+  layout: Navbar,
+});
 </script>
