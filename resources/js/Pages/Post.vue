@@ -6,37 +6,68 @@ import FileUpload from 'primevue/fileupload';
 
 defineOptions({ layout: HeaderLayout })
 
-const url = ref(null)
-
-const data = useForm({
-    url: '',
-    comment: ''
-});
-
-const isImage= (url)=>{
-    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url.toLowerCase())
-}
-const submitForm = ()=>{
-    if(isImage(data.url)){
-        url.value= data.url
-    }else{
-        data.post(route('post.create'),{
-            onSuccess: ()=>{
-                if(typeof props.image !== 'undefined' && 
-                props.image === 'aucune image' && props.image === ''){
-                    data.reset();
-                }
-            }
-    });
-    }
-    
-};
 const props = defineProps({
     type: String,
     title: String,
     image: String, 
     description: String
 })
+
+const url = ref(null)
+const localTitle = ref(null)
+const localType = ref(null)
+const localImage = ref(null)
+const localDescription = ref(null)
+
+
+const data = useForm({
+    url: '',
+    comment: '',
+    img: null,
+    action: '', 
+});
+
+const isImage= (url)=>{
+    return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url.toLowerCase())
+}
+
+const resetLocal = () => {
+    localTitle.value = null
+    localType.value = null
+    localImage.value = null
+    localDescription.value = null
+}
+
+const submitForm = ()=>{
+    if(data.img != null){
+        return validateForm();
+    }
+    data.action = 'preview';
+    if(isImage(data.url)){
+        url.value= data.url
+        // data.reset();
+        resetLocal()
+    }else{
+        data.post(route('post.create'),{
+            onSuccess: ()=>{
+                localTitle.value = props.title ?? null;
+                localType.value = props.type ?? null;
+                localImage.value = props.image ?? 'aucune image';
+                localDescription.value = props.description ?? null
+                // data.reset();
+                url.value= null;
+            }
+    });
+    } 
+};
+
+const validateForm = ()=>{
+    data.action = 'save';
+    data.post(route('post.create'))
+    resetLocal();
+    data.reset();
+}
+
 </script>
 
 <template>
@@ -50,22 +81,29 @@ const props = defineProps({
     mode="basic" 
     name="img"
     accept=".jpg, .jpeg, .png," 
-    :maxFileSize="1000000" 
-    v-if="typeof props.image !== 'undefined' && (props.image === 'aucune image' || props.image === '')" />
-    <Button type="submit" name='add' label="Submit" icon="pi pi-check" iconPos="right" />
+    :maxFileSize="2000000" 
+    @select="data.img = $event.files[0]" 
+    v-if="localImage && (localImage === 'aucune image' || localImage === '')" />
+    <Button type="submit" label="Envoyer" />
 </form>
 
-<img :src="url"> 
 <div>
-        <h1>{{ props.title }}</h1>
-        <h2>{{ props.type }}</h2>
+    <img :src="url" /> 
+    <!-- v-if="typeof url !== null " -->
+</div>
+
+<div>
+        <h1>{{ localTitle }}</h1>
+        <h2>{{ localType }}</h2>
         
         <!-- Pour une image, on utilise le binding ":" -->
-        <img :src="props.image" :alt="props.title" v-if="typeof props.image !== 'undefined' && props.image !== 'aucune image' && props.image !== '' " />
+        <img :src="localImage" :alt="localTitle" v-if="localImage && localImage !== 'aucune image' && localImage !== '' " />
 
-        <p>{{ props.description }}</p>
+        <p>{{ localDescription }}</p>
     </div>
+    <Button v-if="localImage && localImage !== 'aucune image' && localImage !== '' " @click="validateForm" label="Enregistrer le Post" />
 
-<!-- <pre>{{ $page.props }}</pre> -->
+    
+<pre>{{ $page.props }}</pre>
 
 </template>
