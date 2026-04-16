@@ -1,10 +1,11 @@
 <script setup>
-import HeaderLayout from '@/Layouts/HeaderLayout.vue';
+import MainLayout from '@/Layouts/MainLayout.vue';
+
+defineOptions({ layout: MainLayout })
+
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import FileUpload from 'primevue/fileupload';
-
-defineOptions({ layout: HeaderLayout })
 
 const props = defineProps({
     type: String,
@@ -45,7 +46,6 @@ const submitForm = ()=>{
     data.action = 'preview';
     if(isImage(data.url)){
         url.value= data.url
-        // data.reset();
         resetLocal()
     }else{
         data.post(route('post.create'),{
@@ -54,7 +54,6 @@ const submitForm = ()=>{
                 localType.value = props.type ?? null;
                 localImage.value = props.image ?? 'aucune image';
                 localDescription.value = props.description ?? null
-                // data.reset();
                 url.value= null;
             }
     });
