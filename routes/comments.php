@@ -8,6 +8,6 @@ use Inertia\Response;
 
 Route::get('/post', function(){
     return Inertia::render('Post');
-});
+})->name('post');
 
 Route::post('/post', [PostController::class,'create'])->name('post.create');
