@@ -11,3 +11,7 @@ Route::get('/post', function(){
 })->name('post');
 
 Route::post('/post', [PostController::class,'create'])->name('post.create');
+
+Route::get('/comments', function(){
+    return Inertia::render('Comment');
+})->name('comment');

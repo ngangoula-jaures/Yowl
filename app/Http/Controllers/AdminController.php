@@ -9,8 +9,13 @@ class AdminController extends Controller
     //
     public function index()
     {
-        return Inertia::render('Admin/Index');
+        $Users = Users::query();
+
+        return Inertia::render('Home', [
+            'Users' => $Users->latest()->paginate(10),
+        ]);
     }
+    
     public function create(Request $request)
     {
         $request->validate([
@@ -31,19 +36,19 @@ class AdminController extends Controller
     }
 
     
-    public function update(Request $request)
-    {
-        $request->validate([
-            'id' => 'required|integer',
-            'pseudo' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'bio' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
-        ]);
-        $user = User::find($request->id);
-        $user->update($request->all());
-        return redirect()->route('admin.index');
-    }
+    //public function update(Request $request)
+    //{
+       // $request->validate([
+         //   'id' => 'required|integer',
+         //   'pseudo' => 'required|string|max:255',
+         //   'email' => 'required|email|max:255',
+          //  'bio' => 'required|string|max:255',
+           // 'role' => 'required|string|max:255',
+        //]);
+       // $user = User::find($request->id);
+       // $user->update($request->all());
+       // return redirect()->route('admin.index');
+    //}
 
 
     public function delete(Request $request)

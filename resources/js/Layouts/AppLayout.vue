@@ -6,7 +6,6 @@
       <Link href="/test">Page Test</Link>
     </nav>
   
-
     <!-- ZONE DYNAMIQUE (Le contenu de la page arrive ici) -->
     <main class="p-8">
     </main>

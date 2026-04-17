@@ -10,9 +10,10 @@
 
 <script setup>
 import Navbar from '@/Layouts/Navbar.vue';
+import DisplayUser from '@/Layouts/DisplayUser.vue';
 
 defineOptions({
-  layout: Navbar,
+  layout: Navbar,DisplayUser
 });
 </script>
 

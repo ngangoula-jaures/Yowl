@@ -8,8 +8,9 @@
 
 <script setup>
 import Navbar from '@/Layouts/Navbar.vue';
+import PostCards from '@/Layouts/PostCards.vue';
 
 defineOptions({
-  layout: Navbar,
+  layout: PostCards,
 });
 </script>
