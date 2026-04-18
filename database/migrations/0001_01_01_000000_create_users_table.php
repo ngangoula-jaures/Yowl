@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. INSERT INTO users (pseudo, email, bio, photo) VALUES ('jaures', 'jaures@gmail.com', 'je suis jaures', 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg');
      */
     public function up(): void
     {
@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('pseudo')->unique();
             $table->string('email')->unique();
             $table->text('bio')->nullable();
+            $table->string('photo')->nullable();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
