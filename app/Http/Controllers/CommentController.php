@@ -20,7 +20,7 @@ class CommentController extends Controller
         $currentUserId= 1;//Auth::id()
         $currentUser= User::find($currentUserId);
 
-        return Inertia::render('Comment', compact('post','postLikes', 'user', 'numberComments', 'currentUser', 'comments'));
+        return Inertia::render('Comments', compact('post','postLikes', 'user', 'numberComments', 'currentUser', 'comments'));
     }
 
     public function create(Request $request, $id){
@@ -51,7 +51,7 @@ class CommentController extends Controller
         
         $comments= Comment::with('user', 'responses.user')->where('post_id', $id)->whereNull('parent_id')->get();
         session()->flash('success','commentaire ajouté');
-        return Inertia::render('Comment', compact('post','postLikes', 'user', 'numberComments', 'currentUser', 'comments'));
+        return Inertia::render('Comments', compact('post','postLikes', 'user', 'numberComments', 'currentUser', 'comments'));
     }
 
     public function likePost(Request $request, $id){
