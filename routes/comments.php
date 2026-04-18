@@ -14,7 +14,11 @@ Route::get('/post', function(){
 
 Route::post('/post', [PostController::class,'create'])->name('post.create');
 
-Route::get('/comments/{id}', [CommentController::class,'displayPostComments'])->name('post.comments');
-Route::post('/comments/{id}/like', [CommentController::class,'likePost'])->name('like.post');
-Route::post('/comments/{id}', [CommentController::class,'create'])->name('post.comments');
-Route::post('/comments/{id}/delete', [CommentController::class,'deleteComment'])->name('delete.comment');
+Route::get('/post/{id}', [CommentController::class,'displayPostComments'])->name('post.comments');
+Route::post('/post/{id}/like', [CommentController::class,'likePost'])->name('like.post');
+Route::post('/post/{id}', [CommentController::class,'create'])->name('post.comments');
+Route::post('/post/{id}/delete', [CommentController::class,'deleteComment'])->name('delete.comment');
+Route::post('/post/{id}/delete', [CommentController::class,'deleteComment'])->name('delete.comment');
+Route::get('/admin/dashboard', function () {
+    return Inertia::render('DashboardKpi');
+});
