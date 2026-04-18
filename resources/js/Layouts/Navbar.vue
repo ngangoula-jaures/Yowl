@@ -6,8 +6,18 @@ const form = useForm({
 });
 
 const handleSearch = () => {
-  // On envoie la recherche vers la route d'accueil en méthode GET
-  form.get(route('Post.index', { s: form.search }));
+  const routeName = window.location.pathname.startsWith('/comments')
+    ? 'Comment.index'
+    : 'Post.index';
+
+  form.get(route(routeName), {
+    preserveState: true,
+    preserveScroll: true,
+    replace: true,
+    data: {
+      search: form.search,
+    },
+  });
 };
 </script>
 
@@ -17,6 +27,7 @@ const handleSearch = () => {
       <div class="flex justify-between items-center width-full bg-gray-100 p-4">
         <div class="flex items-center gap-4">
             <Link :href="route('Post.index')">Accueil</Link>
+            <Link :href="route('Comment.index')">Commentaires</Link>
             <Link href="/admin">ADMIN</Link>
         </div>
 
