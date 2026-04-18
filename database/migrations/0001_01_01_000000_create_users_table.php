@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. INSERT INTO users (pseudo, email, bio, photo) VALUES ('jaures', 'jaures@gmail.com', 'je suis jaures', 'https://fr.web.img6.acsta.net/img/52/fb/52fb8f0345af2b0940557aa049ca19fd.jpg');
      */
     public function up(): void
     {
