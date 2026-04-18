@@ -9,18 +9,26 @@ use Inertia\Response;
 
 class SearchPostController extends Controller
 {
-    //affichage de tous les posts
-    public function index(Request $request){
+    public function index(Request $request, $s = null)
+    {
+        $search = $request->input('search', $s);
+        $Search = mb_strtolower($search ?? '');
 
-        $posts = Post::query();
-        
-        if ($search = $request->search){
-            $posts->where('title', 'LIKE', '%'.$search.'%')
-            ->orwhere('oembedUrl', 'LIKE', '%'.$search.'%');
+        $query = Post::query()
+            ->withCount(['postLikes', 'comments', 'commentLikes'])
+            ->orderBy('created_at', 'desc');
+
+        if ($search) {
+            $query->where(function ($builder) use ($search) {
+                $builder->whereRaw('LOWER(content) LIKE ?', ['%'.$search.'%'])
+                    ->orWhereRaw('LOWER(url_title) LIKE ?', ['%'.$search.'%']);
+            });
         }
+
+        $posts = $query->paginate(10)->withQueryString();
         
-        return Inertia::render('Home', [
-            'Posts' => $posts->latest()->paginate(10),
+         return Inertia::render('Home', [
+            'posts' => $posts
         ]);
     }
 }

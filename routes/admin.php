@@ -12,7 +12,7 @@ Route::get('/admin', function () {
     return Inertia::render('Admin');
 });
 
-Route::get('/home', [SearchPostController::class,'index'])->name('Post.index');
+Route::get('/home/{s?}', [SearchPostController::class, 'index'])->name('Post.index');
 
 Route::controller(AdminController::class)->group(function () {
     Route::post('/post', 'create')->name('Admin.create');

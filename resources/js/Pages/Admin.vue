@@ -9,11 +9,10 @@
 </template>
 
 <script setup>
-import Navbar from '@/Layouts/Navbar.vue';
-import DisplayUser from '@/Layouts/DisplayUser.vue';
+import MainAdmin from '@/Layouts/MainAdmin.vue';
 
 defineOptions({
-  layout: Navbar,DisplayUser
+  layout:MainAdmin,
 });
 </script>
 

@@ -7,14 +7,20 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     //
-    public function index()
-    {
-        $Users = Users::query();
+    public function index(Request $request)
+{
+    $users = User::query()
+        ->when($request->search, function($query, $search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+        })
+        ->latest()
+        ->paginate(10);
 
-        return Inertia::render('Home', [
-            'Users' => $Users->latest()->paginate(10),
-        ]);
-    }
+    return Inertia::render('Admin', [
+        'Users' => $users,
+    ]);
+}
     
     public function create(Request $request)
     {

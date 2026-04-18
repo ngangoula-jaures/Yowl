@@ -13,4 +13,8 @@ import PostCards from '@/Layouts/PostCards.vue';
 defineOptions({
   layout: PostCards,
 });
+
+defineProps({
+    posts: Array
+})
 </script>

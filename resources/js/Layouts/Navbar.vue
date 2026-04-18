@@ -7,7 +7,7 @@ const form = useForm({
 
 const handleSearch = () => {
   // On envoie la recherche vers la route d'accueil en méthode GET
-  form.get(route('Post.index'));
+  form.get(route('Post.index', { s: form.search }));
 };
 </script>
 
