@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\PostLike;
 use Inertia\Inertia;
 use Inertia\Response;
 use shweshi\OpenGraph\Facades\OpenGraphFacade as OpenGraph;
@@ -99,4 +100,5 @@ class PostController extends Controller
         return redirect()->route('post');
     }   
 }
+
 }
