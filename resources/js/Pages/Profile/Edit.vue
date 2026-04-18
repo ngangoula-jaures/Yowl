@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import '../../../css/profile.css'; 
 
 const props = defineProps({
-    // L'utilisateur est un Objet, pas un Array
+    
     user: Object,       
     userPosts: Array,   
     likedPosts: Array   
