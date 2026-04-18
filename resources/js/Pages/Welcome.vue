@@ -3,9 +3,10 @@
     <p>Ceci est le contenu spécifique à l'accueil.</p>
 </template>
 
-<script setup>
-import HeaderLayout from '@/Layouts/HeaderLayout.vue';
+<script setup>                        
+import Navbar from '@/Layouts/Navbar.vue';
 
-// On définit le layout persistant
-defineOptions({ layout: HeaderLayout })
+defineOptions({
+  layout: Navbar,
+});
 </script>

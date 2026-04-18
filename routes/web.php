@@ -10,7 +10,7 @@ require __DIR__.'/comments.php';
 require __DIR__.'/profile.php';
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+   return Inertia::render('Welcome');
 });
 
 // Route::get('/test', function () {
