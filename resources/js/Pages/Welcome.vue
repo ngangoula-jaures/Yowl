@@ -5,6 +5,7 @@
 
 <script setup>                        
 import Navbar from '@/Layouts/Navbar.vue';
+import AppLayout from '@/Layouts/Layout.vue';
 
 defineOptions({
   layout: Navbar,
