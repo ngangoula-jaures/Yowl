@@ -16,9 +16,9 @@ Route::get("/login", [AuthController::class, "showLogin"])->name("login");
 Route::post("/login", [AuthController::class, "authenticate"]);
 
 Route::middleware("auth")->group(function(){
-    Route::get("/", function () {
-        return inertia("Home");
-    })->name("home");
+    // Route::get("/", function () {
+    //     return inertia("Home");
+    // })->name("home");
 
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
