@@ -26,7 +26,7 @@ const handleSearch = () => {
     <nav>
       <div class="flex justify-between items-center width-full bg-gray-100 p-4">
         <div class="flex items-center gap-4">
-            <Link :href="route('Post.index')">Accueil</Link>
+            <Link  :href="route('Post.index')">Accueil</Link>
             <Link :href="route('Comment.index')">Commentaires</Link>
             <Link href="/admin">ADMIN</Link>
         </div>
