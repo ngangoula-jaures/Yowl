@@ -1,14 +1,29 @@
 <script setup>
 import { ref } from 'vue';
 import '../../../css/profile.css'; 
+import { Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 
+const form = useForm({
+    photo: null,
+});
+
+const changerPhoto = (event) => {
+    form.photo = event.target.files[0];
+    
+    // On envoie le formulaire immédiatement après la sélection
+    form.post('/profile/update-photo', {
+        forceFormData: true,
+    });
+};
+//recevoir les informations de user ses post et ses likes depuis le controller
 const props = defineProps({
     
     user: Object,       
     userPosts: Array,   
     likedPosts: Array   
 });
-
+// c'est pour que le post s'affiche quand on va sur la page pour la première fois où on actualise la page
 const activeTab = ref('posts');
 </script>
 
@@ -16,19 +31,32 @@ const activeTab = ref('posts');
     <div class="profile-container">
         
         <header>
-            <div class="cover-image"style="background-image: url('/images/couverture.jpg');"></div>
+            <div class="cover-image"style="background-image: url('storage/images/couverture.jpg');"></div>
             
             <div class="profile-header">
-                <img :src="user.photo" class="profile" alt="Photo de profil">
+                <div class="image-wrapper" style="position: relative; display: inline-block;">
+                   <img :src="user.photo ? '/storage/images/' + user.photo : '/storage/images/iconeprofil.jpeg'" 
+     class="profile" alt="Photo"> 
+                    
+                    <label for="choisir-photo" class="bouton-icone">
+                        <img src="storage/images/iconeplus.png" alt="Ajouter" />
+                    </label>
+                    <input id="choisir-photo" type="file" style="display: none;" @change="changerPhoto" />
+                </div>
                 
                 <div class="user-info">
                     <h1>{{ user.pseudo }}</h1>
                     <p>{{ user.bio }}</p>
+
+                    <Link href="/profile/edit" class="btn-modifier">
+                        Modifier mon profil
+                    </Link>
                 </div>
             </div>
         </header>
 
         <nav class="tabs-nav">
+        
             <button 
                 @click="activeTab = 'posts'" 
                 :class="{ active: activeTab === 'posts' }" 
@@ -47,6 +75,7 @@ const activeTab = ref('posts');
         </nav>
 
         <main class="posts-grid">
+
             
             <div v-if="activeTab === 'posts'" class="grid-container">
                 <div v-for="post in userPosts" :key="post.id" class="post-it">
