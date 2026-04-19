@@ -16,14 +16,14 @@ const activeTab = ref('posts');
     <div class="profile-container">
         
         <header>
-            <div class="cover-image"style="background-image: url('/images/couverture.jpg');"></div>
+            <div class="cover-image"style="background-image: url('/storage/images/codegirl.jpg');"></div>
             
             <div class="profile-header">
-                <img :src="user.photo" class="profile" alt="Photo de profil">
+                <img :src="props.user.photo || '/storage/images/codegirl.jpg'" class="profile" alt="Photo de profil">
                 
                 <div class="user-info">
-                    <h1>{{ user.pseudo }}</h1>
-                    <p>{{ user.bio }}</p>
+                    <h1>{{ props.user.pseudo }}</h1>
+                    <p>{{ props.user.bio }}</p>
                 </div>
             </div>
         </header>

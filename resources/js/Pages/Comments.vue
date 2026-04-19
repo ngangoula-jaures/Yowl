@@ -101,7 +101,7 @@ const deleteComment= (id)=>{
             <div class="mx-4 my-3 p-3 bg-gray-50 border border-gray-200 rounded-lg ">
                 <p class="text-sm text-gray-700 break-words whitespace-pre-wrap">
                     💬 <span class="font-medium ">{{ props.user['pseudo'] }} : </span>
-                    {{ props.post['content'] }} kgkhkhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    {{ props.post['content'] }}
                 </p>
             </div>
             <div class="flex items-center justify-between px-4 pb-4 pt-2 border-t border-gray-100">

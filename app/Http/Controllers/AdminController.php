@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
@@ -11,8 +13,8 @@ class AdminController extends Controller
 {
     $users = User::query()
         ->when($request->search, function($query, $search) {
-            $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+            $query->where('name', '~*', $search)
+                  ->orWhere('email', '~*' , $search);
         })
         ->latest()
         ->paginate(10);
@@ -36,7 +38,7 @@ class AdminController extends Controller
             'email' => $request->email,
             'bio' => $request->bio,
             'role' => $request->role,
-            'password' => Hash::make($request->password),
+            'password' => $request->password, //Hash::make($request->password),
         ]);
         return redirect()->route('admin.index');
     }

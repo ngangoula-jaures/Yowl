@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -13,7 +14,7 @@ class ProfileController extends Controller
         
 
         // Récupération de l'utilisateur connecté
-        $user = Auth::user();
+        $user = User::where('id', 1)->first();
 
        // (if (!$user) {
       //  $user = \App\Models\User::first();
@@ -22,7 +23,7 @@ class ProfileController extends Controller
 
         // Si aucune photo n'est définie, on assigne l'image par défaut
         if (empty($user->photo)) {
-            $user->photo = '/images/icone.png';
+            $user->photo = Storage::url('codegirl.jpg');
         }
 
         // Récupération des posts de l'utilisateur
