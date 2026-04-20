@@ -82,7 +82,7 @@ class AuthController extends Controller
         Session::forget('pending_email');
         Auth::login($user);
 
-        return Inertia::location(route('home'));
+        return Inertia::location(route('Post.index'));
     }
 
     public function showLogin() {
@@ -97,7 +97,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            $defaultRoute = route("home");
+            $defaultRoute = route("Post.index");
             $intended_route = redirect()->intended($defaultRoute)->getTargetUrl();
             return Inertia::location($intended_route);
         }

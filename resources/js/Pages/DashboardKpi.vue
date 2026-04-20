@@ -2,6 +2,10 @@
 import Chart from 'primevue/chart';
 import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import Navbar from '@/Layouts/Navbar.vue';
+defineOptions({
+  layout: Navbar,
+});
 
 onMounted(() => {
     chartData.value = setChartData();
@@ -125,7 +129,7 @@ const setChartDognutOptions = () => {
 };
 
 const adminCrud = ()=>{
-    
+
 }
 
 
@@ -238,7 +242,7 @@ const adminCrud = ()=>{
                         <option>Cette semaine</option>
                     </select>
                 </div>
-                <div class="w-full h-[500px] bg-white rounded-xl p-4">
+                <div class="w-full h-[350px] bg-white rounded-xl p-4">
                     <Chart type="bar" :data="chartData" :options="chartOptions" class="w-full h-full" />
                 </div>
             </div>
@@ -246,7 +250,7 @@ const adminCrud = ()=>{
             <!-- Secondary Chart (Doughnut / Pie) -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h2 class="text-lg font-bold text-gray-800 mb-6">Top Domaines</h2>
-                <div class="w-full h-[400px] bg-white rounded-xl p-4">
+                <div class="w-full h-[350px] bg-white rounded-xl p-4">
                     <Chart type="doughnut" :data="chartDognutData" :options="chartDognutOptions" class="w-full h-full" />
                 </div>
                 

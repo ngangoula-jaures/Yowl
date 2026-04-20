@@ -1,8 +1,9 @@
 <template>
+  <Navbar>
   <main>
-    <Navbar />
-    <CommentCards :comments="comments" />
+      <CommentCards :comments="comments" />
   </main>
+  </Navbar>
 </template>
 
 <script setup>

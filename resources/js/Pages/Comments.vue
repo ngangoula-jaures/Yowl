@@ -1,6 +1,8 @@
 <script setup>
-import MainLayout from '@/Layouts/MainLayout.vue';
-defineOptions({ layout: MainLayout });
+import Navbar from '@/Layouts/Navbar.vue';
+defineOptions({
+  layout: Navbar,
+});
 
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';

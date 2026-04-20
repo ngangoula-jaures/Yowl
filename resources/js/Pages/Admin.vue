@@ -23,6 +23,10 @@
 </template>
 
 <script setup>
+import Navbar from '@/Layouts/Navbar.vue';
+defineOptions({
+  layout: Navbar,
+});
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import MainAdmin from '@/Layouts/MainAdmin.vue';

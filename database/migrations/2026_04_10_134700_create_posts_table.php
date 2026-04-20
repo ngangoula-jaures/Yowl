@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('url')->unique();
-            $table->string('content');
+            $table->text('url')->unique();
+            $table->text('content');
             $table->string('image');
-            $table->string('url_title')->nullable();
-            $table->string('url_description')->nullable();
+            $table->text('url_title')->nullable();
+            $table->text('url_description')->nullable();
             $table->string('url_type')->nullable();
             $table->timestamps();
         });

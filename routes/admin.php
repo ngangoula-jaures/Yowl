@@ -13,10 +13,10 @@ use App\Http\Controllers\SearchCommentController;
     // return Inertia::render('Admin');
 // });
 
-Route::get('/home/{s?}', [SearchPostController::class, 'index'])->name('Post.index');
-Route::get('/comments/{s?}', [SearchCommentController::class, 'index'])->name('Comment.index');
 
-Route::controller(AdminController::class)->group(function () {
+Route::get('/comments/{s?}', [SearchCommentController::class, 'index'])->name('Comment.index')->middleware('auth');
+
+Route::controller(AdminController::class)->middleware(['auth',\App\Http\Middleware\IsAdmin::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::delete('/admin/user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
     Route::delete('/admin/post/{id}', [AdminController::class, 'deletePost'])->name('admin.deletePost');
@@ -25,3 +25,4 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/posts', [AdminController::class, 'showPosts'])->name('admin.showPosts');
     Route::get('/admin/comments', [AdminController::class, 'showComments'])->name('admin.showComments');
 });
+Route::get('/home/{s?}', [SearchPostController::class, 'index'])->name('Post.index');

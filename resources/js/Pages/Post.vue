@@ -1,7 +1,8 @@
 <script setup>
-import MainLayout from '@/Layouts/MainLayout.vue';
-
-defineOptions({ layout: MainLayout })
+import Navbar from '@/Layouts/Navbar.vue';
+defineOptions({
+  layout: Navbar,
+});
 
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
@@ -101,8 +102,5 @@ const validateForm = ()=>{
         <p>{{ localDescription }}</p>
     </div>
     <Button v-if="localImage && localImage !== 'aucune image' && localImage !== '' " @click="validateForm" label="Enregistrer le Post" />
-
-    
-<pre>{{ $page.props }}</pre>
 
 </template>

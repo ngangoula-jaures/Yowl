@@ -1,8 +1,10 @@
 <template>
     <section class="space-y-4">
-        <div class="flex flex-col items-center justify-center">
-            <h1 class="text-2xl font-bold">Bienvenue sur l'Accueil !</h1>
+        <div class="flex flex-col items-center justify-center mb-8 mt-4">
+            <h1 class="text-3xl font-extrabold text-indigo-600">Bienvenue sur YOWL !</h1>
         </div>
+        
+        <PostCards :posts="posts" />
     </section>
 </template>
 
@@ -11,10 +13,10 @@ import Navbar from '@/Layouts/Navbar.vue';
 import PostCards from '@/Layouts/PostCards.vue';
 
 defineOptions({
-  layout: PostCards,
+  layout: Navbar,
 });
 
 defineProps({
-    posts: Array
-})
+    posts: [Array, Object]
+});
 </script>

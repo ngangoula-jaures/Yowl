@@ -6,6 +6,8 @@ use App\Models\Post;
 use App\Models\PostLike;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use shweshi\OpenGraph\Facades\OpenGraphFacade as OpenGraph;
 class PostController extends Controller
 {
@@ -21,9 +23,14 @@ class PostController extends Controller
 
             try{
                 if(str_contains($url, 'youtube.com') || str_contains($url, 'youtu.be')){
-                    $oembedUrl= 'https://www.youtube.com/oembed?url=' . urlencode($url) . '&format=json';
-                    $jsondata= file_get_contents($oembedUrl);
-                    $dataOg= json_decode($jsondata, true);
+                    // $oembedUrl= 'https://www.youtube.com/oembed?url=' . urlencode($url) . '&format=json';
+                    // $jsondata= file_get_contents($oembedUrl);
+                    $response = Http::get('https://www.youtube.com/oembed', [
+                    'url' => $url,
+                    'format' => 'json'
+                    ]);
+                    $dataOg = $response->json();
+                    // $dataOg= json_decode($jsondata, true);
                     $type = $dataOg['type'] ?? null;
                     $title = $dataOg['author_name'] ?? null;
                     $image = $dataOg['thumbnail_url'] ?? 'aucune image';
@@ -58,7 +65,7 @@ class PostController extends Controller
             'description'=> $description
         ]);
     }else if($request->action === 'save'){
-        $user_id = 1;//faire Auth::id()
+        $user_id = Auth::id();
         $preview = session()->get('preview');
         if($request->img === null){
             $request->validate([
