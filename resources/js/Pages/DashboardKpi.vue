@@ -1,7 +1,7 @@
 <script setup>
 import Chart from 'primevue/chart';
 import { ref, onMounted } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, Link } from '@inertiajs/vue3';
 import Navbar from '@/Layouts/Navbar.vue';
 defineOptions({
   layout: Navbar,
@@ -128,11 +128,6 @@ const setChartDognutOptions = () => {
     };
 };
 
-const adminCrud = ()=>{
-
-}
-
-
 </script>
 
 <template>
@@ -145,9 +140,10 @@ const adminCrud = ()=>{
             </div>
             
             <div class="flex items-center gap-4">
-                <button @click="adminCrud" class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl shadow-sm hover:bg-gray-50 hover:text-indigo-600 transition duration-200 font-medium text-sm flex items-center gap-2">
+                <Link :href="route('admin.index')"><button class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl shadow-sm hover:bg-gray-50 hover:text-indigo-600 transition duration-200 font-medium text-sm flex items-center gap-2">
                     Administrer Yowl
                 </button>
+                </Link>
             </div>
         </header>
 
