@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('url')->unique();
-            $table->string('content');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->text('url')->unique();
+            $table->text('content');
             $table->string('image');
+            $table->text('url_title')->nullable();
+            $table->text('url_description')->nullable();
+            $table->string('url_type')->nullable();
             $table->timestamps();
         });
     }

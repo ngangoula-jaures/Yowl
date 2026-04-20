@@ -15,7 +15,6 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage
 /storage/*.key
 /storage/pail
 /vendor
@@ -23,3 +22,5 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+*~
+compose.yaml
