@@ -23,3 +23,12 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 *~
+dist/
+build/
+out/
+*.o
+*.obj
+*.tmp
+npm-debug.log*
+.cache/
+.eslintcache
