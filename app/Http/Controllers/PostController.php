@@ -71,8 +71,15 @@ class PostController extends Controller
             $request->validate([
                 'url' => 'required|unique:posts,url'
                 ]);
-
-            if($preview['title'] && $preview['description'] && $preview['type']){
+            if(!$preview){
+                $image = $url;
+                 Post::create([
+                    'url'=> $url,
+                    'user_id' => $user_id,
+                    'content'=> $commentaire,
+                    'image'=> $image,
+                ]);
+            }else if($preview['title'] && $preview['description'] && $preview['type']){
                 Post::create([
                 'url'=> $url,
                 'user_id' => $user_id,

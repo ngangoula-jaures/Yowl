@@ -46,7 +46,7 @@ const submitForm = ()=>{
     }
     data.action = 'preview';
     if(isImage(data.url)){
-        url.value= data.url
+        url.value= data.url;
         resetLocal()
     }else{
         data.post(route('post.create'),{
@@ -83,7 +83,7 @@ const validateForm = ()=>{
     accept=".jpg, .jpeg, .png," 
     :maxFileSize="2000000" 
     @select="data.img = $event.files[0]" 
-    v-if="localImage && (localImage === 'aucune image' || localImage === '')" />
+    v-if="localImage && (localImage === 'aucune image' || localImage === '' )" />
     <Button type="submit" label="Envoyer" />
 </form>
 
@@ -101,6 +101,9 @@ const validateForm = ()=>{
 
         <p>{{ localDescription }}</p>
     </div>
-    <Button v-if="localImage && localImage !== 'aucune image' && localImage !== '' " @click="validateForm" label="Enregistrer le Post" />
+    <Button v-if="(localImage && localImage !== 'aucune image' && localImage !== '' ) || url" @click="validateForm" label="Enregistrer le Post" />
+
+    <!-- <pre>{{ $page.props }}</pre> -->
+
 
 </template>
