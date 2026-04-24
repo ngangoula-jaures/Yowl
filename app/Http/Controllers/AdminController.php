@@ -51,7 +51,8 @@ class AdminController extends Controller
     {
         $posts = Post::with('user')
             ->when($request->search, function($query, $search) {
-                $query->where('title', 'like', "%{$search}%");
+                $query->where('content', 'like', "%{$search}%")
+                      ->orWhere('url', 'like', "%{$search}%");
             })
             ->latest()
             ->paginate(10);

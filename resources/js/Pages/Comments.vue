@@ -8,7 +8,6 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 import Avatar from 'primevue/avatar';
-import { data } from 'autoprefixer';
 
 const props = defineProps({
     user: Object,
@@ -28,10 +27,20 @@ const postData= useForm({
     commentId: '',
 })
 
+// dédié aux likes de commentaires
+const likeForm = useForm({
+    commentId: '',
+})
+
 const openComment = ref(null)
 
 const liker= ()=>{
     postData.post(route('like.post', {id:props.post['id']}))
+}
+
+const likerComment = (commentId)=>{
+    likeForm.commentId = commentId
+    likeForm.post(route('like.comment', {id:props.post['id']}))
 }
 
 const showDetails = (commentId)=>{
@@ -137,7 +146,7 @@ const deleteComment= (id)=>{
                 <div class="p-4 space-y-2">
                     <div class="flex items-start gap-3">
                         <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
-                            SA
+                            {{ comment['user']['pseudo'].toUpperCase().substr(0, 2) }}
                         </div>
                         <div class="flex-1">
                             <div class="flex items-baseline gap-2">
@@ -152,18 +161,31 @@ const deleteComment= (id)=>{
 
                     <!-- Actions du commentaire -->
                     <div class="flex items-center gap-4 pl-11">
-                        <button class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-red-500 transition-colors group">
-                            <i class="pi pi-heart text-xs group-hover:scale-110 transition-transform" />
-                            <!-- Nombre de likes de ce commentaire -->
-                            <span>12 ❤️</span>
+                        <!-- Bouton like commentaire — toggle rouge si déjà liké -->
+                        <button
+                            @click="likerComment(comment['id'])"
+                            :class="[
+                                'flex items-center gap-1.5 text-xs transition-colors group',
+                                comment['liked_by_user']
+                                    ? 'text-red-500 font-semibold'
+                                    : 'text-gray-400 hover:text-red-500'
+                            ]"
+                        >
+                            <i
+                                :class="[
+                                    'pi text-xs group-hover:scale-110 transition-transform',
+                                    comment['liked_by_user'] ? 'pi-heart-fill' : 'pi-heart'
+                                ]"
+                            />
+                            <span>{{ comment['likes_count'] }} ❤️</span>
                         </button>
                         <button @click="deleteComment(comment['id'])" v-if="comment['user']['id'] === props.currentUser['id']" class="text-xs text-gray-500 hover:text-gray-700 font-medium px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-red-400 transition-colors">
                                     Supprimer
                         </button>
                         <button @click="showDetails(comment['id'])" class="flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700 font-medium transition-colors">
                             <!-- Icone à changer selon l'état : pi-chevron-down (déplié) / pi-chevron-right (replié) -->
-                            <i class="pi pi-chevron-down text-xs" />
-                            Masquer les réponses
+                            <i :class="openComment === comment['id'] ? 'pi pi-chevron-down text-xs' : 'pi pi-chevron-right text-xs'" />
+                            {{ openComment === comment['id'] ? 'Masquer les réponses' : 'Voir les réponses' }}
                         </button>
                     </div>
                 </div>
@@ -177,7 +199,7 @@ const deleteComment= (id)=>{
                             <textarea
                                 rows="2"
                                 v-model="postData.response"
-                                placeholder="Répondre à sarah_ando…"
+                                placeholder="Répondre à ce commentaire…"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
                             ></textarea>
                             <div class="flex justify-end gap-2">
@@ -195,7 +217,7 @@ const deleteComment= (id)=>{
                     <!-- Réponse #1 -->
                     <div class="flex items-start gap-3 px-4 py-3 pl-14">
                         <div class="w-7 h-7 rounded-full bg-yellow-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
-                            
+                            {{ response['user']['pseudo'].toUpperCase().substr(0, 2) }}
                         </div>
                         <div class="flex-1">
                             <div class="flex items-baseline gap-2">
@@ -206,9 +228,17 @@ const deleteComment= (id)=>{
                                 {{ response['content'] }}
                             </p>
                             <div class="flex items-center gap-3 mt-2">
-                                <button class="flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition-colors group">
-                                    <i class="pi pi-heart text-xs group-hover:scale-110 transition-transform" />
-                                    <span>5 ❤️</span>
+                                <!-- Bouton like réponse — toggle rouge si déjà liké -->
+                                <button
+                                    @click="likerComment(response['id'])"
+                                    :class="[
+                                        'flex items-center gap-1 text-xs transition-colors group',
+                                        response['liked_by_user']
+                                            ? 'text-red-500 font-semibold'
+                                            : 'text-gray-400 hover:text-red-500'
+                                    ]"
+                                >
+                                    <span>{{ response['likes_count'] }} ❤️</span>
                                 </button>
                                 <button @click="deleteComment(response['id'])" v-if="response['user']['id'] === props.currentUser['id']" class="flex items-center gap-1 text-xs text-white-400 hover:text-white-600 font-medium bg-red-200 hover:bg-red-400 border border-gray-200 transition-colors">
                                     <i class="pi pi-reply text-xs" />

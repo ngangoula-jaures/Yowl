@@ -1,8 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import '../../../css/profile.css'; 
-import { Link } from '@inertiajs/vue3';
-import { useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import Navbar from '@/Layouts/Navbar.vue';
 
 defineOptions({
@@ -13,6 +12,10 @@ const form = useForm({
     photo: null,
 });
 
+const deleteForm = useForm({
+    postId: '',
+});
+
 const changerPhoto = (event) => {
     form.photo = event.target.files[0];
     
@@ -21,6 +24,11 @@ const changerPhoto = (event) => {
         forceFormData: true,
     });
 };
+
+const deletePost = (postId) => {
+    deleteForm.post(route('profile.post.delete', { postId: postId }));
+};
+
 //recevoir les informations de user ses post et ses likes depuis le controller
 const props = defineProps({
     
@@ -83,15 +91,25 @@ const activeTab = ref('posts');
 
             
             <div v-if="activeTab === 'posts'" class="grid-container">
-                <div v-for="post in userPosts" :key="post.id" class="post-it">
-                    <p>{{ post.content }}</p>
+                <div v-for="post in userPosts" :key="post.id" class="post-it" style="position: relative;">
+                    <!-- Carte cliquable pour rediriger vers le post cliqué-->
+                    <Link :href="route('post.comments', { id: post.id })" style="display: block; text-decoration: none; color: inherit;">
+                        <p>{{ post.content }}</p>
+                    </Link>
+                    <!-- Bouton supprimer -->
+                    <button @click.prevent="deletePost(post.id)" class="btn-supprimer">
+                        Supprimer
+                    </button>
                 </div>
                 <p v-if="userPosts.length === 0">Tu n'as pas encore écrit de post-it.</p>
             </div>
 
             <div v-else class="grid-container">
-                <div v-for="post in likedPosts" :key="post.id" class="post-it liked">
-                    <p>{{ post.content }}</p>
+                <div v-for="post in likedPosts" :key="post.id" class="post-it liked" style="position: relative;">
+                    <!-- Carte cliquable → redirige vers le post -->
+                    <Link :href="route('post.comments', { id: post.id })" style="display: block; text-decoration: none; color: inherit;">
+                        <p>{{ post.content }}</p>
+                    </Link>
                 </div>
                 <p v-if="likedPosts.length === 0">Tu n'as pas encore de coups de cœur.</p>
             </div>

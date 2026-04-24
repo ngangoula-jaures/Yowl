@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -15,10 +16,6 @@ class ProfileController extends Controller
          $id= Auth::id();
         // Récupération de l'utilisateur connecté
         $user = User::where('id', $me)->first();
-
-       // (if (!$user) {
-      //  $user = \App\Models\User::first();
-      //  Auth::login($user);
       
 
         // Si aucune photo n'est définie, on assigne l'image par défaut
@@ -49,5 +46,14 @@ class ProfileController extends Controller
                 'user' => $user,
             ],
         ]);
+    }
+
+    // suppression d'un post depuis le profil
+    public function deletePost($postId){
+        $post = Post::findOrFail($postId);
+        $post->delete();
+
+        $userId = Auth::id();
+        return redirect()->route('profile', ['me' => $userId])->with('success', 'post supprimé');
     }
 }

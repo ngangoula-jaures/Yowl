@@ -6,19 +6,39 @@ use App\Models\PostLike;
 use App\Models\Comment;
 use App\Models\User;
 use App\Models\CommentLike;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    private function getComments($postId, $currentUserId){
+        return Comment::with('user', 'likes', 'responses.user', 'responses.likes')
+            ->withCount('likes')
+            ->with(['responses' => function($query){
+                $query->withCount('likes');
+            }])
+            ->where('post_id', $postId)
+            ->whereNull('parent_id')
+            ->get()
+            ->map(function ($comment) use ($currentUserId) {
+                $comment->liked_by_user = $comment->likes->contains('user_id', $currentUserId);
+                $comment->responses = $comment->responses->map(function ($response) use ($currentUserId) {
+                    $response->liked_by_user = $response->likes->contains('user_id', $currentUserId);
+                    return $response;
+                });
+                return $comment;
+            });
+    }
+
     public function displayPostComments($id){
         $post= Post::findOrFail($id);
         $user= $post->user;
         $postLikes= PostLike::where('post_id', $id)->count();
         $numberComments = Comment::where('post_id', $id)->count();
-        $comments= Comment::with('user', 'responses.user')->where('post_id', $id)->whereNull('parent_id')->get();
-        $currentUserId= 1;//Auth::id()
+        $currentUserId= Auth::id();
         $currentUser= User::find($currentUserId);
+        $comments = $this->getComments($id, $currentUserId);
 
         return Inertia::render('Comments', compact('post','postLikes', 'user', 'numberComments', 'currentUser', 'comments'));
     }
@@ -29,7 +49,7 @@ class CommentController extends Controller
         $postLikes= PostLike::where('post_id', $id)->count();
         $numberComments = Comment::where('post_id', $id)->count();
         
-        $currentUserId= 1;//Auth::id()
+        $currentUserId= Auth::id();
         $currentUser= User::find($currentUserId);
         $content = $request->comment;
         if($request->response){
@@ -49,7 +69,7 @@ class CommentController extends Controller
             ]);
         }
         
-        $comments= Comment::with('user', 'responses.user')->where('post_id', $id)->whereNull('parent_id')->get();
+        $comments = $this->getComments($id, $currentUserId);
         session()->flash('success','commentaire ajouté');
         return Inertia::render('Comments', compact('post','postLikes', 'user', 'numberComments', 'currentUser', 'comments'));
     }
@@ -64,12 +84,33 @@ class CommentController extends Controller
                 'post_id'=> $post_id,
                 'user_id'=> $user_id
             ]);
+            return redirect()->route('post.comments', ['id'=>$post_id])->with('success','post liké');
         }else{
-            return redirect()->route('post.comments', ['id'=>$post_id])->with('echec','post déjà liké');
+            $like->delete();
+            return redirect()->route('post.comments', ['id'=>$post_id])->with('echec','like supprimé');
         }
 
-        return redirect()->route('post.comments', ['id'=>$post_id])->with('success','post liké');
+    }
 
+    public function likeComment(Request $request, $id){
+        $comment_id = $request->commentId;
+        $user_id = Auth::id();
+
+        $existingLike = CommentLike::where('comment_id', $comment_id)
+            ->where('user_id', $user_id)
+            ->first();
+
+        if ($existingLike) {
+            $existingLike->delete();
+            return redirect()->route('post.comments', ['id' => $id])->with('echec', 'like supprimé');
+        } else {
+            CommentLike::create([
+                'comment_id' => $comment_id,
+                'user_id'    => $user_id,
+            ]);
+        }
+
+        return redirect()->route('post.comments', ['id' => $id])->with('success', 'commentaire liké');
     }
 
     public function deleteComment(Request $request, $id){

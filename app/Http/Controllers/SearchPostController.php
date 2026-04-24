@@ -15,7 +15,7 @@ class SearchPostController extends Controller
         $Search = mb_strtolower($search ?? '');
 
         $query = Post::query()
-            ->withCount(['postLikes', 'comments', 'commentLikes'])
+            ->withCount(['postLikes', 'comments'])
             ->orderBy('created_at', 'desc');
 
         if ($search) {

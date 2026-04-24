@@ -134,3 +134,23 @@ cursor: default;
     width: 50px;
     padding: 2px;
 }
+
+/* Bouton Supprimer sur les cartes post */
+.btn-supprimer {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    align-self: flex-end;
+}
+
+.btn-supprimer:hover {
+    background-color: #c53030;
+}

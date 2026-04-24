@@ -21,12 +21,14 @@
     <div class="bg-white rounded shadow">
       <div v-for="comment in commentsList" :key="comment.id" class="flex justify-between items-start p-4 border-b">
         <div class="flex-1">
-          <p class="text-gray-800">{{ truncate(comment.content, 150) }}</p>
-          <div class="flex gap-4 mt-2">
-            <span class="text-xs text-gray-500">Par: {{ getUserName(comment) }}</span>
-            <span class="text-xs text-gray-500">Post: {{ getPostTitle(comment) }}</span>
-            <span class="text-xs text-gray-500">Le: {{ formatDate(comment.created_at) }}</span>
-          </div>
+          <Link :href="route('post.comments', { id: comment.post_id })" class="block p-2 -ml-2 rounded hover:bg-gray-50 transition-colors">
+            <p class="text-gray-800">{{ truncate(comment.content, 150) }}</p>
+            <div class="flex gap-4 mt-2">
+              <span class="text-xs text-gray-500">Par: {{ getUserName(comment) }}</span>
+              <span class="text-xs text-gray-500">Post: {{ getPostTitle(comment) }}</span>
+              <span class="text-xs text-gray-500">Le: {{ formatDate(comment.created_at) }}</span>
+            </div>
+          </Link>
         </div>
         <button @click="confirmDelete(comment.id, truncate(comment.content, 50))" class="bg-red-600 text-white px-3 py-1 rounded text-sm ml-4">
           Supprimer
@@ -60,7 +62,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
   comments: Object

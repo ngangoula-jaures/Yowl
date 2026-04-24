@@ -6,7 +6,7 @@
         type="text" 
         v-model="searchTerm"
         @keyup.enter="searchPosts"
-        placeholder="Rechercher un post par titre..."
+        placeholder="Rechercher un post (contenu ou URL)..."
         class="flex-1 px-4 py-2 border rounded"
       />
       <button 
@@ -21,12 +21,17 @@
     <div class="bg-white rounded shadow">
       <div v-for="post in postsList" :key="post.id" class="flex justify-between items-start p-4 border-b">
         <div class="flex-1">
-          <span class="font-bold">{{ post.title }}</span>
-          <p class="text-sm text-gray-600 mt-1">{{ truncate(post.content, 100) }}</p>
-          <div class="flex gap-4 mt-2">
-            <span class="text-xs text-gray-400">Par: {{ getUserName(post) }}</span>
-            <span class="text-xs text-gray-400">Le: {{ formatDate(post.created_at) }}</span>
-          </div>
+          <Link :href="route('post.comments', { id: post.id })" class="block p-2 -ml-2 rounded hover:bg-gray-50 transition-colors">
+            <span class="font-bold text-gray-800">{{ post.url_title || 'Post sans titre' }}</span>
+            <p class="text-sm text-gray-500 mt-1 mb-2">
+              <span v-if="post.url" class="text-blue-500 hover:underline break-all">{{ post.url }}</span>
+            </p>
+            <p class="text-sm text-gray-700">{{ truncate(post.content, 100) }}</p>
+            <div class="flex gap-4 mt-2">
+              <span class="text-xs text-gray-400">Par: {{ getUserName(post) }}</span>
+              <span class="text-xs text-gray-400">Le: {{ formatDate(post.created_at) }}</span>
+            </div>
+          </Link>
         </div>
         <button @click="confirmDelete(post.id, post.title)" class="bg-red-600 text-white px-3 py-1 rounded text-sm ml-4">
           Supprimer
@@ -60,7 +65,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
   posts: Object

@@ -19,8 +19,8 @@ Route::post('/post', [PostController::class,'create'])->name('post.create')->mid
 Route::controller(CommentController::class)->middleware('auth')->group(function(){
 Route::get('/post/{id}', [CommentController::class,'displayPostComments'])->name('post.comments');
 Route::post('/post/{id}/like', [CommentController::class,'likePost'])->name('like.post');
+Route::post('/post/{id}/comment/like', [CommentController::class,'likeComment'])->name('like.comment');
 Route::post('/post/{id}', [CommentController::class,'create'])->name('post.comments');
-Route::post('/post/{id}/delete', [CommentController::class,'deleteComment'])->name('delete.comment');
 Route::post('/post/{id}/delete', [CommentController::class,'deleteComment'])->name('delete.comment');
 });
 
