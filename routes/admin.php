@@ -25,4 +25,4 @@ Route::controller(AdminController::class)->middleware(['auth',\App\Http\Middlewa
     Route::get('/admin/posts', [AdminController::class, 'showPosts'])->name('admin.showPosts');
     Route::get('/admin/comments', [AdminController::class, 'showComments'])->name('admin.showComments');
 });
-Route::get('/home/{s?}', [SearchPostController::class, 'index'])->name('Post.index');
+Route::get('/home/{s?}', [SearchPostController::class, 'index'])->name('home.index');
