@@ -17,7 +17,7 @@ Route::get('/post', function(){
 Route::post('/post', [PostController::class,'create'])->name('post.create')->middleware('auth');
 
 Route::controller(CommentController::class)->middleware('auth')->group(function(){
-Route::get('/post/{id}', [CommentController::class,'displayPostComments'])->name('post.comments');
+Route::get('/post/{id}', [CommentController::class,'displayPostComments'])->name('post.comments.show');
 Route::post('/post/{id}/like', [CommentController::class,'likePost'])->name('like.post');
 Route::post('/post/{id}/comment/like', [CommentController::class,'likeComment'])->name('like.comment');
 Route::post('/post/{id}', [CommentController::class,'create'])->name('comment.store');
