@@ -93,7 +93,7 @@ const showToast= ()=>{
           <div class="hidden md:flex items-center gap-4">
             <Link :href="route('Post.index')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Accueil</Link>
             <Link v-if="!$page.props.auth.user" :href="route('login')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Connexion</Link>
-            <Link :href="route('post')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Faire un post</Link>
+            <Link v-if="$page.props.auth.user" :href="route('post')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Faire un post</Link>
             <Link v-if="$page.props.auth.user?.role === 'admin' " :href="route('dashboard.kpi')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Dashboard</Link>
             <Link v-if="$page.props.auth.user " :href="route('profile', {me: $page.props.auth.user?.id})" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Profil</Link>
           </div>
