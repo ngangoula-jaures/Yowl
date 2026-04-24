@@ -1,20 +1,18 @@
 <template>
-  <div class="p-6">
-    <h1 class="text-2xl font-bold mb-4">Les Commentaires</h1>
-    <p class="text-gray-600">{{ commentsList.length }} commentaires trouvés</p>
+  <div class="p-4">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-bold text-white">Les Commentaires</h1>
+      <p class="text-sm text-[rgba(255,255,255,0.6)]">{{ commentsList.length }} trouvés</p>
+    </div>
 
     <div v-if="commentsList.length > 0" class="grid gap-4">
-      <div
-        v-for="comment in commentsList"
-        :key="comment.id"
-        class="border p-4 rounded shadow-sm bg-white"
-      >
-        <p class="text-gray-800">{{ comment.content }}</p>
-        <p class="text-gray-500 text-sm mt-2">{{ comment.created_at }}</p>
+      <div v-for="comment in commentsList" :key="comment.id" class="yowl-card p-4">
+        <p class="text-white">{{ comment.content }}</p>
+        <p class="text-[rgba(255,255,255,0.6)] text-sm mt-2">{{ comment.created_at }}</p>
       </div>
     </div>
 
-    <div v-else class="text-gray-500">
+    <div v-else class="text-[rgba(255,255,255,0.6)]">
       Aucun commentaire trouvé pour cette recherche.
     </div>
 

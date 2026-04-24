@@ -2,14 +2,14 @@
   <div>
     <!-- Recherche avec bouton -->
     <div class="flex gap-2 mb-4">
-      <input 
-        type="text" 
+      <input
+        type="text"
         v-model="searchTerm"
         @keyup.enter="searchPosts"
         placeholder="Rechercher un post (contenu ou URL)..."
         class="flex-1 px-4 py-2 border rounded"
       />
-      <button 
+      <button
         @click="searchPosts"
         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
@@ -18,18 +18,18 @@
     </div>
 
     <!-- Liste des posts -->
-    <div class="bg-white rounded shadow">
-      <div v-for="post in postsList" :key="post.id" class="flex justify-between items-start p-4 border-b">
+    <div class="yowl-card rounded">
+      <div v-for="post in postsList" :key="post.id" class="flex justify-between items-start p-4 border-b border-[rgba(255,255,255,0.03)]">
         <div class="flex-1">
-          <Link :href="route('post.comments', { id: post.id })" class="block p-2 -ml-2 rounded hover:bg-gray-50 transition-colors">
-            <span class="font-bold text-gray-800">{{ post.url_title || 'Post sans titre' }}</span>
-            <p class="text-sm text-gray-500 mt-1 mb-2">
-              <span v-if="post.url" class="text-blue-500 hover:underline break-all">{{ post.url }}</span>
+          <Link :href="route('post.comments', { id: post.id })" class="block p-2 -ml-2 rounded hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+            <span class="font-bold text-white">{{ post.url_title || 'Post sans titre' }}</span>
+            <p class="text-sm text-[rgba(255,255,255,0.7)] mt-1 mb-2">
+              <span v-if="post.url" class="text-[rgba(255,255,255,0.65)] break-all">{{ post.url }}</span>
             </p>
-            <p class="text-sm text-gray-700">{{ truncate(post.content, 100) }}</p>
+            <p class="text-sm text-[rgba(255,255,255,0.9)]">{{ truncate(post.content, 100) }}</p>
             <div class="flex gap-4 mt-2">
-              <span class="text-xs text-gray-400">Par: {{ getUserName(post) }}</span>
-              <span class="text-xs text-gray-400">Le: {{ formatDate(post.created_at) }}</span>
+              <span class="text-xs text-[rgba(255,255,255,0.6)]">Par: {{ getUserName(post) }}</span>
+              <span class="text-xs text-[rgba(255,255,255,0.6)]">Le: {{ formatDate(post.created_at) }}</span>
             </div>
           </Link>
         </div>
@@ -37,7 +37,7 @@
           Supprimer
         </button>
       </div>
-      <div v-if="postsList.length === 0" class="p-4 text-center text-gray-500">
+      <div v-if="postsList.length === 0" class="p-4 text-center text-[rgba(255,255,255,0.6)]">
         Aucun post trouvé
       </div>
 
@@ -51,11 +51,11 @@
 
     <!-- Modal -->
     <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded p-4">
-        <p>Supprimer le post <strong>"{{ postToDeleteName }}"</strong> ?</p>
-        <p class="text-red-600 text-sm mt-2">⚠️ Tous les commentaires de ce post seront supprimés.</p>
+      <div class="yowl-card rounded p-4 max-w-lg w-full">
+        <p class="text-[rgba(255,255,255,0.95)]">Supprimer le post <strong class="text-white">"{{ postToDeleteName }}"</strong> ?</p>
+        <p class="text-red-400 text-sm mt-2">⚠️ Tous les commentaires de ce post seront supprimés.</p>
         <div class="flex justify-end gap-2 mt-4">
-          <button @click="showModal = false" class="px-3 py-1 bg-gray-300 rounded">Non</button>
+          <button @click="showModal = false" class="px-3 py-1 bg-[rgba(255,255,255,0.04)] rounded">Non</button>
           <button @click="performDelete" class="px-3 py-1 bg-red-600 text-white rounded">Oui</button>
         </div>
       </div>
@@ -93,9 +93,9 @@ const formatDate = (date) => {
 };
 
 const postsList = computed(() => props.posts?.data || []);
-const paginationInfo = computed(() => props.posts?.current_page ? { 
-  current_page: props.posts.current_page, 
-  last_page: props.posts.last_page 
+const paginationInfo = computed(() => props.posts?.current_page ? {
+  current_page: props.posts.current_page,
+  last_page: props.posts.last_page
 } : null);
 
 const searchPosts = () => {

@@ -2,14 +2,14 @@
   <div>
     <!-- Recherche avec bouton -->
     <div class="flex gap-2 mb-4">
-      <input 
-        type="text" 
+      <input
+        type="text"
         v-model="searchTerm"
         @keyup.enter="searchComments"
         placeholder="Rechercher un commentaire..."
         class="flex-1 px-4 py-2 border rounded"
       />
-      <button 
+      <button
         @click="searchComments"
         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
@@ -18,15 +18,15 @@
     </div>
 
     <!-- Liste des commentaires -->
-    <div class="bg-white rounded shadow">
-      <div v-for="comment in commentsList" :key="comment.id" class="flex justify-between items-start p-4 border-b">
+    <div class="yowl-card rounded">
+      <div v-for="comment in commentsList" :key="comment.id" class="flex justify-between items-start p-4 border-b border-[rgba(255,255,255,0.03)]">
         <div class="flex-1">
-          <Link :href="route('post.comments', { id: comment.post_id })" class="block p-2 -ml-2 rounded hover:bg-gray-50 transition-colors">
-            <p class="text-gray-800">{{ truncate(comment.content, 150) }}</p>
+          <Link :href="route('post.comments', { id: comment.post_id })" class="block p-2 -ml-2 rounded hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+            <p class="text-[rgba(255,255,255,0.95)]">{{ truncate(comment.content, 150) }}</p>
             <div class="flex gap-4 mt-2">
-              <span class="text-xs text-gray-500">Par: {{ getUserName(comment) }}</span>
-              <span class="text-xs text-gray-500">Post: {{ getPostTitle(comment) }}</span>
-              <span class="text-xs text-gray-500">Le: {{ formatDate(comment.created_at) }}</span>
+              <span class="text-xs text-[rgba(255,255,255,0.6)]">Par: {{ getUserName(comment) }}</span>
+              <span class="text-xs text-[rgba(255,255,255,0.6)]">Post: {{ getPostTitle(comment) }}</span>
+              <span class="text-xs text-[rgba(255,255,255,0.6)]">Le: {{ formatDate(comment.created_at) }}</span>
             </div>
           </Link>
         </div>
@@ -34,7 +34,7 @@
           Supprimer
         </button>
       </div>
-      <div v-if="commentsList.length === 0" class="p-4 text-center text-gray-500">
+      <div v-if="commentsList.length === 0" class="p-4 text-center text-[rgba(255,255,255,0.6)]">
         Aucun commentaire trouvé
       </div>
 
@@ -48,11 +48,11 @@
 
     <!-- Modal -->
     <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded p-4">
-        <p>Supprimer le commentaire <strong>"{{ commentToDeleteName }}..."</strong> ?</p>
-        <p class="text-red-600 text-sm mt-2">⚠️ Toutes les réponses seront supprimées.</p>
+      <div class="yowl-card rounded p-4 max-w-lg w-full">
+        <p class="text-[rgba(255,255,255,0.95)]">Supprimer le commentaire <strong class="text-white">"{{ commentToDeleteName }}..."</strong> ?</p>
+        <p class="text-red-400 text-sm mt-2">⚠️ Toutes les réponses seront supprimées.</p>
         <div class="flex justify-end gap-2 mt-4">
-          <button @click="showModal = false" class="px-3 py-1 bg-gray-300 rounded">Non</button>
+          <button @click="showModal = false" class="px-3 py-1 bg-[rgba(255,255,255,0.04)] rounded">Non</button>
           <button @click="performDelete" class="px-3 py-1 bg-red-600 text-white rounded">Oui</button>
         </div>
       </div>
@@ -97,9 +97,9 @@ const formatDate = (date) => {
 };
 
 const commentsList = computed(() => props.comments?.data || []);
-const paginationInfo = computed(() => props.comments?.current_page ? { 
-  current_page: props.comments.current_page, 
-  last_page: props.comments.last_page 
+const paginationInfo = computed(() => props.comments?.current_page ? {
+  current_page: props.comments.current_page,
+  last_page: props.comments.last_page
 } : null);
 
 const searchComments = () => {

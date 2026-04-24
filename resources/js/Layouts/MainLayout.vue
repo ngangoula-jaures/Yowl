@@ -38,22 +38,24 @@ const showToast= ()=>{
   })
 
   watch(
-    ()=> page.props.flash, 
-    ()=> showToast(), 
+    ()=> page.props.flash,
+    ()=> showToast(),
     {deep: true}
   )
 
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100">
+  <div class="min-h-screen" style="background: linear-gradient(180deg,#0b0b0d,#070708);">
     <Toast/>
-    <nav class="bg-blue-900 p-4 shadow">
-      <Link href="/" class="mr-4">Accueil</Link>
-      <Link href="/test">Page Test</Link>
+    <nav class="glass p-4">
+      <div class="container mx-auto flex items-center gap-4">
+        <Link href="/" class="text-white">Accueil</Link>
+        <Link href="/test" class="text-[rgba(255,255,255,0.8)]">Page Test</Link>
+      </div>
     </nav>
     <!-- ZONE DYNAMIQUE (Le contenu de la page arrive ici) -->
-    <main class="p-8">
+    <main class="p-8 container mx-auto">
       <slot />
     </main>
   </div>

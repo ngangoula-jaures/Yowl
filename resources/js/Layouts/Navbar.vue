@@ -62,62 +62,56 @@ const showToast= ()=>{
   })
 
   watch(
-    ()=> [page.props.flash, page.props.errors], 
-    ()=> showToast(), 
+    ()=> [page.props.flash, page.props.errors],
+    ()=> showToast(),
     {deep: true}
   )
 </script>
 
 <template>
   <Toast/>
-  <div class="min-h-screen bg-gray-50 flex flex-col">
-    <nav class="bg-white p-4 shadow-sm sticky top-0 z-50">
-      <div class="container mx-auto flex justify-between items-center">
-        <Link href="/home" class="text-xl font-extrabold text-indigo-600 flex items-center gap-2">
-          YOWL
+  <div class="min-h-screen flex flex-col">
+    <nav class="glass sticky top-0 z-50 py-3">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <Link href="/home" class="text-2xl font-extrabold flex items-center gap-3 neon-avatar">
+          <span class="px-3 py-2 text-white text-lg">Y</span>
+          <span class="text-white">YOWL</span>
         </Link>
 
-        <div class="flex items-center space-x-6">
-          <form v-if="route().current('Post.index') || $page.url.startsWith('/comments')" @submit.prevent="handleSearch">
-          <div class="flex justify-start items-center gap-2 ">
-              <input 
-                v-model="form.search" 
-                class="border-2 border-gray-300 rounded-md p-2 w-full"
-                type="text" 
-                placeholder="Rechercher..." 
+        <div class="flex items-center space-x-4">
+          <form v-if="route().current('Post.index') || $page.url.startsWith('/comments')" @submit.prevent="handleSearch" class="w-72">
+            <div class="flex items-center gap-2">
+              <input
+                v-model="form.search"
+                class="yowl-search"
+                type="text"
+                placeholder="Rechercher une URL, un profil..."
               />
-              <button type="submit">Search</button>
-          </div>
-        </form>
-          <Link :href="route('Post.index')" class="text-gray-600 hover:text-indigo-600 font-medium transition">Accueil</Link>
-          <Link v-if="!$page.props.auth.user" :href="route('login')" class="text-gray-600 hover:text-indigo-600 font-medium transition">Connexion</Link>
-          <Link v-if="$page.props.auth.user" :href="route('post')" class="text-gray-600 hover:text-indigo-600 font-medium transition">Faire un post</Link>
-          <Link v-if="$page.props.auth.user?.role === 'admin' " :href="route('dashboard.kpi')" class="text-gray-600 hover:text-indigo-600 font-medium transition">Dashboard</Link>
-          <Link v-if="$page.props.auth.user " :href="route('profile', {me: $page.props.auth.user?.id})" class="text-gray-600 hover:text-indigo-600 font-medium transition">Profile</Link>
+            </div>
+          </form>
 
-          <Link v-if="!$page.props.auth.user"
-            :href="route('verify.email')" 
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold transition shadow-md"
-          >
-            S'inscrire
-          </Link>
-          <Link v-if="$page.props.auth.user && route().current('profile')"
-            :href="route('logout')" method="post" as="button"
-            class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-bold transition shadow-md"
-          >
-            Se deconnecter
-          </Link>
+          <div class="hidden md:flex items-center gap-4">
+            <Link :href="route('Post.index')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Accueil</Link>
+            <Link v-if="!$page.props.auth.user" :href="route('login')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Connexion</Link>
+            <Link :href="route('post')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Faire un post</Link>
+            <Link v-if="$page.props.auth.user?.role === 'admin' " :href="route('dashboard.kpi')" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Dashboard</Link>
+            <Link v-if="$page.props.auth.user " :href="route('profile', {me: $page.props.auth.user?.id})" class="text-sm text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Profil</Link>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <Link v-if="!$page.props.auth.user" :href="route('verify.email')" class="yowl-btn">S'inscrire</Link>
+            <Link v-if="$page.props.auth.user && route().current('profile')" :href="route('logout')" method="post" as="button" class="yowl-btn bg-red-500">Se déconnecter</Link>
+          </div>
         </div>
       </div>
     </nav>
 
-    <main class="flex-grow container mx-auto p-6">
+    <main class="flex-grow container mx-auto px-4 py-6">
       <slot />
     </main>
 
-    <footer class="bg-white border-top py-6 text-center text-gray-400 text-sm">
+    <footer class="py-6 text-center text-[rgba(255,255,255,0.5)] text-sm">
       &copy; 2026 YOWL - Tous droits réservés.
     </footer>
   </div>
 </template>
-        

@@ -12,7 +12,7 @@ use Inertia\Response;
 
 Route::get('/post', function(){
     return Inertia::render('Post');
-})->name('post')->middleware('auth');
+})->name('post');
 
 Route::post('/post', [PostController::class,'create'])->name('post.create')->middleware('auth');
 

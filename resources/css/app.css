@@ -1,3 +1,94 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Design system variables */
+:root{
+	--bg:#0b0b0d;
+	--bg-soft:#0f0f12;
+	--card:#0f0f13;
+	--muted:#9ca3af;
+	--accent:#c758e6;
+	--accent-2:#ff7a18;
+	--glass: rgba(255,255,255,0.03);
+	--radius-lg: 18px;
+}
+
+@layer base{
+	html,body,#app{height:100%;}
+	body{
+		background: radial-gradient(1200px 400px at 10% 10%, rgba(199,63,255,0.06), transparent),
+								linear-gradient(180deg,var(--bg) 0%, #070708 100%);
+		color: #e6edf3;
+		font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+		-webkit-font-smoothing:antialiased;
+		-moz-osx-font-smoothing:grayscale;
+	}
+	a{color:var(--accent);}
+}
+
+/* Components */
+@layer components{
+	.yowl-sidebar{
+		background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+		border-right: 1px solid rgba(255,255,255,0.03);
+		min-height:100vh;
+		padding:1.75rem 1rem;
+	}
+
+	.yowl-btn{
+		@apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shadow-neon-lg;
+		background: linear-gradient(90deg,var(--accent),#ff69b4);
+		color:#fff;
+		transition: transform .18s ease, box-shadow .18s ease;
+	}
+	.yowl-btn:hover{ transform: translateY(-3px); }
+
+	.yowl-card{
+		background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+		border: 1px solid rgba(255,255,255,0.04);
+		border-radius: var(--radius-lg);
+		padding: 1.25rem;
+		transition: transform .25s ease, box-shadow .25s ease;
+	}
+	.yowl-card:hover{ transform: translateY(-8px); box-shadow: 0 30px 50px rgba(0,0,0,0.6); }
+
+	.yowl-badge{
+		display:inline-flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border-radius:9999px; font-weight:600; font-size:.8rem;
+		background: linear-gradient(90deg, rgba(199,63,255,0.12), rgba(255,122,24,0.06)); color: #fff; border: 1px solid rgba(199,63,255,0.12);
+	}
+
+	.neon-avatar{
+		border-radius:9999px; padding:4px; background: linear-gradient(90deg,var(--accent),#ff69b4); display:inline-block;
+	}
+	.neon-avatar img{ border-radius:9999px; display:block; }
+
+	.glass{
+		background: var(--glass); backdrop-filter: blur(6px) saturate(120%);
+		border: 1px solid rgba(255,255,255,0.04);
+		border-radius: 14px;
+	}
+
+	.yowl-search{
+		@apply w-full rounded-xl px-4 py-3 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.03)];
+		color:inherit;
+	}
+}
+
+/* Utilities for micro-interactions */
+@layer utilities{
+	.float-anim{ animation:float 6s ease-in-out infinite; }
+	.pulse-neon{ animation:pulse-neon 2.6s ease-in-out infinite; }
+	.card-deep{ box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 -6px 40px rgba(0,0,0,0.4); }
+}
+
+/* Small adjustments for default components */
+.p-toast{ z-index:99999; }
+
+/* Responsive tweaks */
+@media (max-width:768px){
+	.yowl-sidebar{ display:none; }
+}
+
+/* End of theme */
+

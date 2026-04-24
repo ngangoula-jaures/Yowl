@@ -11,7 +11,7 @@ import FileUpload from 'primevue/fileupload';
 const props = defineProps({
     type: String,
     title: String,
-    image: String, 
+    image: String,
     description: String
 })
 
@@ -26,7 +26,7 @@ const data = useForm({
     url: '',
     comment: '',
     img: null,
-    action: '', 
+    action: '',
 });
 
 const isImage= (url)=>{
@@ -58,7 +58,7 @@ const submitForm = ()=>{
                 url.value= null;
             }
     });
-    } 
+    }
 };
 
 const validateForm = ()=>{
@@ -71,39 +71,49 @@ const validateForm = ()=>{
 </script>
 
 <template>
-<form @submit.prevent="submitForm">
-    <InputText class="w-[450px] !rounded-3xl !border-2" type="text" v-model="data.url" placeholder="Collez une url..."/>
-    <FloatLabel class="mt-8">
-    <Textarea v-model="data.comment" rows="5" cols="70" />
-    <label>Commentaire</label>
-    </FloatLabel>
-    <FileUpload class="my-3"
-    mode="basic" 
-    name="img"
-    accept=".jpg, .jpeg, .png," 
-    :maxFileSize="2000000" 
-    @select="data.img = $event.files[0]" 
-    v-if="localImage && (localImage === 'aucune image' || localImage === '' )" />
-    <Button type="submit" label="Envoyer" />
-</form>
+<div class="max-w-3xl mx-auto space-y-4">
+    <div v-if="$page.props.auth.user" class="yowl-card space-y-4">
+        <form @submit.prevent="submitForm" class="space-y-3">
+        <div>
+            <InputText class="w-full rounded-3xl px-4 py-3" type="text" v-model="data.url" placeholder="Collez une url..."/>
+        </div>
 
-<div>
-    <img :src="url" /> 
-    <!-- v-if="typeof url !== null " -->
-</div>
+        <div>
+            <FloatLabel>
+                <Textarea v-model="data.comment" rows="5" cols="70" class="w-full rounded-lg px-3 py-2" />
+                <label>Commentaire</label>
+            </FloatLabel>
+        </div>
 
-<div>
-        <h1>{{ localTitle }}</h1>
-        <h2>{{ localType }}</h2>
-        
-        <!-- Pour une image, on utilise le binding ":" -->
-        <img :src="localImage" :alt="localTitle" v-if="localImage && localImage !== 'aucune image' && localImage !== '' " />
+        <div>
+            <FileUpload class="my-3" mode="basic" name="img" accept=".jpg, .jpeg, .png," :maxFileSize="2000000" @select="data.img = $event.files[0]" v-if="localImage && (localImage === 'aucune image' || localImage === '' )" />
+        </div>
 
-        <p>{{ localDescription }}</p>
+        <div class="flex gap-3">
+            <Button type="submit" label="Envoyer" class="yowl-btn" />
+            <Button v-if="(localImage && localImage !== 'aucune image' && localImage !== '' ) || url" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
+        </div>
+    </form>
+
+    <div v-if="url || localImage" class="mt-4">
+        <div v-if="url"><img :src="url" class="w-full rounded-lg object-contain"/></div>
+        <div v-if="localImage && localImage !== 'aucune image' && localImage !== '' " class="mt-3">
+            <img :src="localImage" :alt="localTitle" class="w-full rounded-lg object-contain" />
+        </div>
+        <div class="mt-3">
+            <h3 class="text-lg font-bold text-white">{{ localTitle }}</h3>
+            <p class="text-sm text-[rgba(255,255,255,0.7)]">{{ localType }}</p>
+            <p class="mt-2 text-[rgba(255,255,255,0.8)]">{{ localDescription }}</p>
+        </div>
     </div>
-    <Button v-if="(localImage && localImage !== 'aucune image' && localImage !== '' ) || url" @click="validateForm" label="Enregistrer le Post" />
+    </div>
 
-    <!-- <pre>{{ $page.props }}</pre> -->
-
-
+    <div v-else class="yowl-card text-center py-12">
+        <h2 class="text-xl font-bold text-white">Connectez-vous pour créer un post</h2>
+        <p class="text-[rgba(255,255,255,0.7)] mt-2">La création de posts nécessite une authentification.</p>
+        <div class="mt-4">
+            <Link :href="route('login')" class="yowl-btn">Se connecter</Link>
+        </div>
+    </div>
+</div>
 </template>

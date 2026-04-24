@@ -1,21 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col">
-    <nav class="bg-white p-4 shadow-sm sticky top-0 z-50">
-      <div class="container mx-auto flex justify-between items-center">
-        <Link href="/" class="text-xl font-extrabold text-indigo-600 flex items-center gap-2">
-          YOWL
-        </Link>
+  <div class="min-h-screen flex flex-col" style="background: linear-gradient(180deg,#0b0b0d,#070708);">
+    <nav class="glass sticky top-0 z-50 py-3">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <Link href="/" class="text-2xl font-extrabold text-white">YOWL</Link>
 
-        <div class="flex items-center space-x-6">
-          <Link href="/" class="text-gray-600 hover:text-indigo-600 font-medium transition">Accueil</Link>
-          <Link href="/login" class="text-gray-600 hover:text-indigo-600 font-medium transition">Connexion</Link>
-          
-          <Link 
-            href="/EmailVerify" 
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-bold transition shadow-md"
-          >
-            S'inscrire
-          </Link>
+        <div class="flex items-center space-x-4">
+          <Link href="/" class="text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Accueil</Link>
+          <Link href="/login" class="text-[rgba(255,255,255,0.85)] hover:text-white font-medium transition">Connexion</Link>
+          <Link href="/EmailVerify" class="yowl-btn">S'inscrire</Link>
         </div>
       </div>
     </nav>
@@ -24,7 +16,7 @@
       <slot />
     </main>
 
-    <footer class="bg-white border-top py-6 text-center text-gray-400 text-sm">
+    <footer class="py-6 text-center text-[rgba(255,255,255,0.5)] text-sm">
       &copy; 2026 YOWL - Tous droits réservés.
     </footer>
   </div>

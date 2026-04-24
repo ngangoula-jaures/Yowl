@@ -1,29 +1,31 @@
 <template>
-    <div class="p-6">
-      <h1 class="text-2xl font-bold mb-4">Les Posts</h1>
-      <p class="text-gray-600">{{ postsList.length }} posts trouvés</p>
+    <div class="p-4">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-white">Les Posts</h1>
+        <p class="text-sm text-[rgba(255,255,255,0.6)]">{{ postsList.length }} posts</p>
+      </div>
 
-      <div v-if="postsList.length > 0" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
-        <div v-for="post in postsList" :key="post.id" class="overflow-hidden rounded border bg-white shadow-sm">
+      <div v-if="postsList.length > 0" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div v-for="post in postsList" :key="post.id" class="overflow-hidden rounded yowl-card">
           <a :href="route('post.comments', {id: post.id})"><img
             :src="post.image.startsWith('http') ? post.image : '/storage/' + post.image"
             :alt="post.url_title || post.content"
-            class="h-40 w-full object-contain bg-white-100"
+            class="h-44 w-full object-cover rounded-t-md"
           />
           </a>
           <div class="space-y-2 p-4">
-            <h2 class="line-clamp-2 text-lg font-semibold">{{ post.url_title || post.content }}</h2>
-            <p class="line-clamp-2 text-sm text-gray-600">{{ post.content }}</p>
-            <div class="flex items-center justify-between pt-2 text-sm text-gray-700">
+            <h2 class="line-clamp-2 text-lg font-semibold text-white">{{ post.url_title || post.content }}</h2>
+            <p class="line-clamp-2 text-sm text-[rgba(255,255,255,0.75)]">{{ post.content }}</p>
+            <div class="flex items-center justify-between pt-2 text-sm text-[rgba(255,255,255,0.6)]">
               <span>👍 {{ post.post_likes_count ?? 0 }}</span>
               <span>💬 {{ post.comments_count ?? 0 }}</span>
-              <span>❤️💬 {{ post.comment_likes_count ?? 0 }}</span>
+              <span>💙 {{ post.comment_likes_count ?? 0 }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div v-else class="text-gray-500">
+      <div v-else class="text-[rgba(255,255,255,0.6)]">
         Aucun post trouvé pour cette recherche.
       </div>
       <div v-if="paginationInfo" class="mt-8 flex justify-center gap-2">
@@ -34,11 +36,11 @@
         >
           ←
         </button>
-        
+
         <span class="px-4 py-2">
           Page {{ paginationInfo.current_page }} / {{ paginationInfo.last_page }}
         </span>
-        
+
         <button
           @click="goToPage(paginationInfo.current_page + 1)"
           :disabled="paginationInfo.current_page === paginationInfo.last_page"
