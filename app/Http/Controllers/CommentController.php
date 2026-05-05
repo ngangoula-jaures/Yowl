@@ -84,10 +84,10 @@ class CommentController extends Controller
                 'post_id'=> $post_id,
                 'user_id'=> $user_id
             ]);
-            return redirect()->route('post.comments', ['id'=>$post_id])->with('success','post liké');
+            return redirect()->route('post.comments.show', ['id'=>$post_id])->with('success','post liké');
         }else{
             $like->delete();
-            return redirect()->route('post.comments', ['id'=>$post_id])->with('echec','like supprimé');
+            return redirect()->route('post.comments.show', ['id'=>$post_id])->with('echec','like supprimé');
         }
 
     }
@@ -102,7 +102,7 @@ class CommentController extends Controller
 
         if ($existingLike) {
             $existingLike->delete();
-            return redirect()->route('post.comments', ['id' => $id])->with('echec', 'like supprimé');
+            return redirect()->route('post.comments.show', ['id' => $id])->with('echec', 'like supprimé');
         } else {
             CommentLike::create([
                 'comment_id' => $comment_id,
@@ -110,7 +110,7 @@ class CommentController extends Controller
             ]);
         }
 
-        return redirect()->route('post.comments', ['id' => $id])->with('success', 'commentaire liké');
+        return redirect()->route('post.comments.show', ['id' => $id])->with('success', 'commentaire liké');
     }
 
     public function deleteComment(Request $request, $id){
@@ -118,6 +118,6 @@ class CommentController extends Controller
         $comment = Comment::where('id', $commentId)->firstOrFail();
         $comment->delete();
 
-        return redirect()->route('post.comments', ['id'=>$id])->with('success','commentaire supprimé');
+        return redirect()->route('post.comments.show', ['id'=>$id])->with('success','commentaire supprimé');
     }
 }

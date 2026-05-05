@@ -20,6 +20,7 @@ const localTitle = ref(null)
 const localType = ref(null)
 const localImage = ref(null)
 const localDescription = ref(null)
+const fileUploadRef = ref(null)
 
 
 const data = useForm({
@@ -63,9 +64,15 @@ const submitForm = ()=>{
 
 const validateForm = ()=>{
     data.action = 'save';
-    data.post(route('post.create'))
-    resetLocal();
-    data.reset();
+    data.post(route('post.create'), {
+        onSuccess: () => {
+            resetLocal();
+            data.reset();
+            if (fileUploadRef.value) {
+                fileUploadRef.value.clear();
+            }
+        }
+    });
 }
 
 </script>
@@ -86,7 +93,7 @@ const validateForm = ()=>{
         </div>
 
         <div>
-            <FileUpload class="my-3" mode="basic" name="img" accept=".jpg, .jpeg, .png," :maxFileSize="2000000" @select="data.img = $event.files[0]" v-if="localImage && (localImage === 'aucune image' || localImage === '' )" />
+            <FileUpload ref="fileUploadRef" class="my-3" mode="basic" name="img" accept=".jpg, .jpeg, .png," :maxFileSize="2000000" @select="data.img = $event.files[0]" v-if="localImage && (localImage === 'aucune image' || localImage === '' )" />
         </div>
 
         <div class="flex gap-3">
