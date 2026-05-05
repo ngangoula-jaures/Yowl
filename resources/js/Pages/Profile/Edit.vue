@@ -52,7 +52,7 @@ const activeTab = ref('posts');
      class="profile" alt="Photo">
 
                     <label for="choisir-photo" class="bouton-icone">
-                        <img src="/storage/images/icone.png" alt="Ajouter" />
+                        <img src="https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/icone.jpg" alt="Ajouter" />
                     </label>
                     <input id="choisir-photo" type="file" accept=".jpg,.jpeg,.png" style="display: none;" @change="changerPhoto" />
                 </div>
