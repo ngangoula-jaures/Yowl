@@ -20,10 +20,10 @@ class ProfileController extends Controller
 
         // Génère l'URL complète pour la photo (fonctionne avec R2 et stockage local)
         if (empty($user->photo)) {
-            $user->photo = Storage::url('codegirl.jpg');
-        } else {
-            $user->photo = Storage::url($user->photo);
+            $user->photo = Storage::disk('public')->url('images/icone.png');
         }
+        // Note: pas de 'else', car l'accesseur photo() dans le modèle User s'occupe déjà
+        // de transformer le chemin de la base de données en URL complète via Storage::disk('public')->url().
 
         // Récupération des posts de l'utilisateur
         $userPosts = $user->posts()->orderBy('created_at', 'desc')->get();
