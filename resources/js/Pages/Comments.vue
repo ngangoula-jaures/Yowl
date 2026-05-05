@@ -86,12 +86,7 @@ const deleteComment= (id)=>{
                 </div>
             </div>
             <!-- Image du post -->
-            <img v-if="props.post['image'].includes('images/')"
-                :src="'/storage/' + props.post['image']"
-                alt="Image du post"
-                class="w-full object-cover"
-            />
-            <img v-else
+            <img v-if="props.post['image']"
                 :src="props.post['image']"
                 alt="Image du post"
                 class="w-full object-cover"

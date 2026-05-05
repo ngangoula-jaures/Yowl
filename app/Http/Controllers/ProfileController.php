@@ -12,15 +12,17 @@ class ProfileController extends Controller
 {
     public function edit($me)
     {
-        
+
          $id= Auth::id();
         // Récupération de l'utilisateur connecté
         $user = User::where('id', $me)->first();
-      
 
-        // Si aucune photo n'est définie, on assigne l'image par défaut
+
+        // Génère l'URL complète pour la photo (fonctionne avec R2 et stockage local)
         if (empty($user->photo)) {
             $user->photo = Storage::url('codegirl.jpg');
+        } else {
+            $user->photo = Storage::url($user->photo);
         }
 
         // Récupération des posts de l'utilisateur
@@ -36,7 +38,7 @@ class ProfileController extends Controller
             'likedPosts' => $likedPosts
         ]);
     }
-    // cette fonction là c'est pour la modification 
+    // cette fonction là c'est pour la modification
     public function editForm(){
     $id= Auth::id();
         $user = User::where('id', $id)->first();

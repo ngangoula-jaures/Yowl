@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import '../../../css/profile.css'; 
+import '../../../css/profile.css';
 import { Link, useForm } from '@inertiajs/vue3';
 import Navbar from '@/Layouts/Navbar.vue';
 
@@ -18,7 +18,7 @@ const deleteForm = useForm({
 
 const changerPhoto = (event) => {
     form.photo = event.target.files[0];
-    
+
     // On envoie le formulaire immédiatement après la sélection
     form.post(route('profile.photo'), {
         forceFormData: true,
@@ -31,10 +31,10 @@ const deletePost = (postId) => {
 
 //recevoir les informations de user ses post et ses likes depuis le controller
 const props = defineProps({
-    
-    user: Object,       
-    userPosts: Array,   
-    likedPosts: Array   
+
+    user: Object,
+    userPosts: Array,
+    likedPosts: Array
 });
 // c'est pour que le post s'affiche quand on va sur la page pour la première fois où on actualise la page
 const activeTab = ref('posts');
@@ -42,21 +42,21 @@ const activeTab = ref('posts');
 
 <template>
     <div class="profile-container">
-        
+
         <header>
             <div class="cover-image"style="background-image: url('/storage/images/couverture.jpg')"></div>
-            
+
             <div class="profile-header">
                 <div class="image-wrapper" style="position: relative; display: inline-block;">
-                   <img :src="user.photo ? '/storage/' + user.photo : '/storage/images/icone.png'" 
-     class="profile" alt="Photo"> 
-                    
+                   <img :src="user.photo || '/storage/images/icone.png'"
+     class="profile" alt="Photo">
+
                     <label for="choisir-photo" class="bouton-icone">
                         <img src="/storage/images/icone.png" alt="Ajouter" />
                     </label>
                     <input id="choisir-photo" type="file" accept=".jpg,.jpeg,.png" style="display: none;" @change="changerPhoto" />
                 </div>
-                
+
                 <div class="user-info">
                     <h1>{{ user.pseudo }}</h1>
                     <p>{{ user.bio }}</p>
@@ -69,18 +69,18 @@ const activeTab = ref('posts');
         </header>
 
         <nav class="tabs-nav">
-        
-            <button 
-                @click="activeTab = 'posts'" 
-                :class="{ active: activeTab === 'posts' }" 
+
+            <button
+                @click="activeTab = 'posts'"
+                :class="{ active: activeTab === 'posts' }"
                 class="tab-btn"
             >
                 Mes Posts
             </button>
-            
-            <button 
-                @click="activeTab = 'likes'" 
-                :class="{ active: activeTab === 'likes' }" 
+
+            <button
+                @click="activeTab = 'likes'"
+                :class="{ active: activeTab === 'likes' }"
                 class="tab-btn"
             >
                 Mes Likes
@@ -89,7 +89,7 @@ const activeTab = ref('posts');
 
         <main class="posts-grid">
 
-            
+
             <div v-if="activeTab === 'posts'" class="grid-container">
                 <div v-for="post in userPosts" :key="post.id" class="post-it" style="position: relative;">
                     <!-- Carte cliquable pour rediriger vers le post cliqué-->
@@ -113,7 +113,7 @@ const activeTab = ref('posts');
                 </div>
                 <p v-if="likedPosts.length === 0">Tu n'as pas encore de coups de cœur.</p>
             </div>
-            
+
         </main>
     </div>
 </template>
