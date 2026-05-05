@@ -8,7 +8,7 @@
       <div v-if="postsList.length > 0" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         <div v-for="post in postsList" :key="post.id" class="overflow-hidden rounded yowl-card">
           <a :href="route('post.comments.show', {id: post.id})"><img
-            :src="post.image"
+            :src="'https://pub-8333e451e639449b9572090f3589f12e.r2.dev/'+ post.image"
             :alt="post.url_title || post.content"
             class="h-44 w-full object-cover rounded-t-md"
           />
