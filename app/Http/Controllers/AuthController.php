@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -31,9 +31,30 @@ class AuthController extends Controller
 
         Session::put('pending_email', $request->email);
 
-        Mail::raw("Votre code de vérification Yowl : $token", function($message) use ($request) {
-            $message->to($request->email)->subject("Vérification de votre compte Yowl");
-        });
+        // Envoi via l'API HTTP Brevo (Railway bloque tous les ports SMTP)
+        $response = Http::timeout(15)
+            ->withHeaders([
+                'api-key'      => env('BREVO_API_KEY'),
+                'Content-Type' => 'application/json',
+                'Accept'       => 'application/json',
+            ])
+            ->post('https://api.brevo.com/v3/smtp/email', [
+                'sender' => [
+                    'email' => env('MAIL_FROM_ADDRESS', 'no-reply@yowl.app'),
+                    'name'  => env('MAIL_FROM_NAME', 'Yowl'),
+                ],
+                'to' => [
+                    ['email' => $request->email],
+                ],
+                'subject'     => 'Vérification de votre compte Yowl',
+                'textContent' => "Votre code de vérification Yowl : $token",
+            ]);
+
+        if (!$response->successful()) {
+            return back()->withErrors([
+                'email' => 'Impossible d\'envoyer le code de vérification. Veuillez réessayer.',
+            ]);
+        }
 
         return Inertia::location(route('verify.code'));
     }
