@@ -45,7 +45,7 @@ const activeTab = ref('posts');
     <div class="profile-container">
 
         <header>
-            <div class="cover-image" :style="{ backgroundImage: `url(${imageUrl('images/couverture.jpg') || 'https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/couverture.jpg'})` }"></div>
+            <div class="cover-image" :style="{ backgroundImage: url('https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/couverture.jpg') }"></div>
 
             <div class="profile-header">
                 <div class="image-wrapper" style="position: relative; display: inline-block;">
@@ -53,7 +53,7 @@ const activeTab = ref('posts');
      class="profile" alt="Photo">
 
                     <label for="choisir-photo" class="bouton-icone">
-                        <img :src="imageUrl('images/icone.jpg') || 'https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/icone.jpg'" alt="Ajouter" />
+                        <img src="https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/icone.jpg" alt="Ajouter" />
                     </label>
                     <input id="choisir-photo" type="file" accept=".jpg,.jpeg,.png" style="display: none;" @change="changerPhoto" />
                 </div>
