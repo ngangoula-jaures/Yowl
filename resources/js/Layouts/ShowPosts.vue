@@ -21,7 +21,7 @@
     <div class="yowl-card rounded">
       <div v-for="post in postsList" :key="post.id" class="flex justify-between items-start p-4 border-b border-[rgba(255,255,255,0.03)]">
         <div class="flex-1">
-          <Link :href="route('post.comments', { id: post.id })" class="block p-2 -ml-2 rounded hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+          <Link :href="route('post.comments.show', { id: post.id })" class="block p-2 -ml-2 rounded hover:bg-[rgba(255,255,255,0.02)] transition-colors">
             <span class="font-bold text-white">{{ post.url_title || 'Post sans titre' }}</span>
             <p class="text-sm text-[rgba(255,255,255,0.7)] mt-1 mb-2">
               <span v-if="post.url" class="text-[rgba(255,255,255,0.65)] break-all">{{ post.url }}</span>

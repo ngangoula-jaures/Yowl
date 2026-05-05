@@ -21,7 +21,7 @@
     <div class="yowl-card rounded">
       <div v-for="comment in commentsList" :key="comment.id" class="flex justify-between items-start p-4 border-b border-[rgba(255,255,255,0.03)]">
         <div class="flex-1">
-          <Link :href="route('post.comments', { id: comment.post_id })" class="block p-2 -ml-2 rounded hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+          <Link :href="route('post.comments.show', { id: comment.post_id })" class="block p-2 -ml-2 rounded hover:bg-[rgba(255,255,255,0.02)] transition-colors">
             <p class="text-[rgba(255,255,255,0.95)]">{{ truncate(comment.content, 150) }}</p>
             <div class="flex gap-4 mt-2">
               <span class="text-xs text-[rgba(255,255,255,0.6)]">Par: {{ getUserName(comment) }}</span>
