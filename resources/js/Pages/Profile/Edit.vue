@@ -93,7 +93,7 @@ const activeTab = ref('posts');
             <div v-if="activeTab === 'posts'" class="grid-container">
                 <div v-for="post in userPosts" :key="post.id" class="post-it" style="position: relative;">
                     <!-- Carte cliquable pour rediriger vers le post cliqué-->
-                    <Link :href="route('post.comments', { id: post.id })" style="display: block; text-decoration: none; color: inherit;">
+                    <Link :href="route('post.comments.show', { id: post.id })" style="display: block; text-decoration: none; color: inherit;">
                         <p>{{ post.content }}</p>
                     </Link>
                     <!-- Bouton supprimer -->
@@ -107,7 +107,7 @@ const activeTab = ref('posts');
             <div v-else class="grid-container">
                 <div v-for="post in likedPosts" :key="post.id" class="post-it liked" style="position: relative;">
                     <!-- Carte cliquable → redirige vers le post -->
-                    <Link :href="route('post.comments', { id: post.id })" style="display: block; text-decoration: none; color: inherit;">
+                    <Link :href="route('post.comments.show', { id: post.id })" style="display: block; text-decoration: none; color: inherit;">
                         <p>{{ post.content }}</p>
                     </Link>
                 </div>
