@@ -5,7 +5,7 @@ defineOptions({
 });
 
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 
 import Avatar from 'primevue/avatar';
 import imageUrl from '@/utils/imageUrl';
@@ -78,11 +78,12 @@ const deleteComment= (id)=>{
         <!-- CARTE DU POST                                                     -->
         <div class="yowl-card overflow-hidden">
             <div class="flex items-center gap-3 px-4 pt-4 pb-3">
-                <div class="neon-avatar">
-                    <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">{{props.user['pseudo'].toUpperCase().substr(0, 2)}}</div>
-                </div>
+                <Link :href="route('profile', { me: props.user['id'] })" class="neon-avatar hover:opacity-80 transition">
+                    <img v-if="props.user['photo']" :src="imageUrl(props.user['photo'])" alt="Avatar" class="w-9 h-9 rounded-full object-cover shrink-0" />
+                    <div v-else class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold shrink-0">{{props.user['pseudo'].toUpperCase().substr(0, 2)}}</div>
+                </Link>
                 <div>
-                    <p class="text-sm font-semibold text-white">{{props.user['pseudo']}}</p>
+                    <Link :href="route('profile', { me: props.user['id'] })" class="text-sm font-semibold text-white hover:underline">{{props.user['pseudo']}}</Link>
                     <p class="text-xs text-[rgba(255,255,255,0.6)]">posté le {{ props.post['created_at'].substr(0, 10)}}</p>
                 </div>
             </div>
@@ -141,12 +142,13 @@ const deleteComment= (id)=>{
 
                 <div class="p-4 space-y-2">
                     <div class="flex items-start gap-3">
-                        <div class="neon-avatar">
-                            <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">{{ comment['user']['pseudo'].toUpperCase().substr(0, 2) }}</div>
-                        </div>
+                        <Link :href="route('profile', { me: comment['user']['id'] })" class="neon-avatar hover:opacity-80 transition">
+                            <img v-if="comment['user']['photo']" :src="imageUrl(comment['user']['photo'])" alt="Avatar" class="w-8 h-8 rounded-full object-cover shrink-0" />
+                            <div v-else class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">{{ comment['user']['pseudo'].toUpperCase().substr(0, 2) }}</div>
+                        </Link>
                         <div class="flex-1">
                             <div class="flex items-baseline gap-2">
-                                <span class="text-sm font-semibold text-white">{{ comment['user']['pseudo'] }}</span>
+                                <Link :href="route('profile', { me: comment['user']['id'] })" class="text-sm font-semibold text-white hover:underline">{{ comment['user']['pseudo'] }}</Link>
                                 <span class="text-xs text-[rgba(255,255,255,0.6)]">{{ comment['created_at'].substr(0, 10) }}</span>
                             </div>
                             <p class="text-sm text-[rgba(255,255,255,0.9)] mt-1">
@@ -177,7 +179,8 @@ const deleteComment= (id)=>{
                 <div v-if="openComment === comment['id']" class="pl-8 pt-2 border-t border-[rgba(255,255,255,0.03)] px-4 py-3 pl-12 bg-[rgba(255,255,255,0.02)]"><!--A mettre en hidden-->
                     <div class="flex gap-2 items-start">
                         <!-- Avatar utilisateur connecté -->
-                        <Avatar image="https://object.pixocial.com/pixocial/dmxffni837f1xrj8pki9xgrl.jpg" class="mr-2" size="large" shape="circle" />
+                        <img v-if="props.currentUser['photo']" :src="imageUrl(props.currentUser['photo'])" alt="Avatar" class="w-10 h-10 rounded-full object-cover shrink-0 mr-2" />
+                        <div v-else class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white text-sm font-bold shrink-0 mr-2">{{ props.currentUser['pseudo'].toUpperCase().substr(0, 2) }}</div>
                         <div class="flex-1 space-y-2">
                             <textarea rows="2" v-model="postData.response" placeholder="Répondre à ce commentaire…" class="w-full border border-[rgba(0,0,0,0.06)] rounded-lg px-3 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 resize-none focus:outline-none focus:border-[rgba(199,63,255,0.6)] focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition"></textarea>
                             <div class="flex justify-end gap-2">
@@ -194,12 +197,15 @@ const deleteComment= (id)=>{
 
                     <!-- Réponse #1 -->
                     <div class="flex items-start gap-3 px-4 py-3 pl-14">
-                        <div class="w-7 h-7 rounded-full bg-yellow-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
-                            {{ response['user']['pseudo'].toUpperCase().substr(0, 2) }}
-                        </div>
+                        <Link :href="route('profile', { me: response['user']['id'] })" class="hover:opacity-80 transition">
+                            <img v-if="response['user']['photo']" :src="imageUrl(response['user']['photo'])" alt="Avatar" class="w-7 h-7 rounded-full object-cover shrink-0" />
+                            <div v-else class="w-7 h-7 rounded-full bg-yellow-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                {{ response['user']['pseudo'].toUpperCase().substr(0, 2) }}
+                            </div>
+                        </Link>
                         <div class="flex-1">
                             <div class="flex items-baseline gap-2">
-                                <span class="text-sm font-semibold text-white">{{ response['user']['pseudo'] }}</span>
+                                <Link :href="route('profile', { me: response['user']['id'] })" class="text-sm font-semibold text-white hover:underline">{{ response['user']['pseudo'] }}</Link>
                                 <span class="text-xs text-[rgba(255,255,255,0.6)]">{{ response['created_at'].substr(0, 10) }}</span>
                             </div>
                             <p class="text-sm text-[rgba(255,255,255,0.9)] mt-1">
@@ -240,7 +246,8 @@ const deleteComment= (id)=>{
     <div class="fixed bottom-0 left-0 right-0 glass border-t border-[rgba(255,255,255,0.04)] shadow-lg z-50">
         <div class="max-w-2xl mx-auto px-4 py-3">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">MO</div>
+                <img v-if="props.currentUser['photo']" :src="imageUrl(props.currentUser['photo'])" alt="Avatar" class="w-8 h-8 rounded-full object-cover shrink-0" />
+                <div v-else class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">{{ props.currentUser['pseudo'].toUpperCase().substr(0, 2) }}</div>
                     <input type="text" v-model="postData.comment" placeholder="Ajoute un commentaire sur ce post…" class="flex-1 rounded-full px-4 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition" />
                 <button @click="submitComment" class="yowl-btn"> <i class="pi pi-send" /> Envoyer</button>
             </div>
