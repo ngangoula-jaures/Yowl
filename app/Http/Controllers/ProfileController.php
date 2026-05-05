@@ -34,11 +34,14 @@ class ProfileController extends Controller
         // Récupération des posts likés classé par date
         $likedPosts = $user->likedPosts()->orderBy('post_likes.created_at', 'desc')->get();
 
+        $isOwner = ($id == $me);
+
         // envoie des données de l'utilisateur à la vue pour afficher
         return Inertia::render('Profile/Edit', [
             'user'       => $user,
             'userPosts'  => $userPosts,
-            'likedPosts' => $likedPosts
+            'likedPosts' => $likedPosts,
+            'isOwner'    => $isOwner
         ]);
     }
     // cette fonction là c'est pour la modification

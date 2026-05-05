@@ -35,7 +35,8 @@ const props = defineProps({
 
     user: Object,
     userPosts: Array,
-    likedPosts: Array
+    likedPosts: Array,
+    isOwner: Boolean
 });
 // c'est pour que le post s'affiche quand on va sur la page pour la première fois où on actualise la page
 const activeTab = ref('posts');
@@ -52,17 +53,17 @@ const activeTab = ref('posts');
                     <img :src="imageUrl(user.photo) || 'https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/icone.jpg'"
      class="profile" alt="Photo">
 
-                    <label for="choisir-photo" class="bouton-icone">
+                    <label v-if="isOwner" for="choisir-photo" class="bouton-icone">
                         <img src="https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/icone.jpg" alt="Ajouter" />
                     </label>
-                    <input id="choisir-photo" type="file" accept=".jpg,.jpeg,.png" style="display: none;" @change="changerPhoto" />
+                    <input v-if="isOwner" id="choisir-photo" type="file" accept=".jpg,.jpeg,.png" style="display: none;" @change="changerPhoto" />
                 </div>
 
                 <div class="user-info">
                     <h1>{{ user.pseudo }}</h1>
                     <p>{{ user.bio }}</p>
 
-                    <Link :href="route('profile.edit')" class="btn-modifier">
+                    <Link v-if="isOwner" :href="route('profile.edit')" class="btn-modifier">
                         Modifier mon profil
                     </Link>
                 </div>
@@ -98,7 +99,7 @@ const activeTab = ref('posts');
                         <p>{{ post.content }}</p>
                     </Link>
                     <!-- Bouton supprimer -->
-                    <button @click.prevent="deletePost(post.id)" class="btn-supprimer">
+                    <button v-if="isOwner" @click.prevent="deletePost(post.id)" class="btn-supprimer">
                         Supprimer
                     </button>
                 </div>
