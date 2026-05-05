@@ -8,6 +8,7 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 import Avatar from 'primevue/avatar';
+import imageUrl from '@/utils/imageUrl';
 
 const props = defineProps({
     user: Object,
@@ -87,7 +88,7 @@ const deleteComment= (id)=>{
             </div>
             <!-- Image du post -->
             <img v-if="props.post['image']"
-                :src="'https://pub-8333e451e639449b9572090f3589f12e.r2.dev/' + props.post['image']"
+                :src="imageUrl(props.post['image'])"
                 alt="Image du post"
                 class="w-full object-cover"
             />

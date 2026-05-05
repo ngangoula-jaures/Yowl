@@ -30,7 +30,7 @@ class Post extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value && !str_starts_with($value, 'http')
-                ? Storage::url($value)
+                ? Storage::disk('public')->url($value)
                 : $value,
         );
     }
