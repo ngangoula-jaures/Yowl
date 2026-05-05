@@ -45,7 +45,7 @@ const activeTab = ref('posts');
     <div class="profile-container">
 
         <header>
-            <div class="cover-image" :style="{ backgroundImage: url('https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/couverture.jpg') }"></div>
+            <div class="cover-image" style="background-image: url('https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/couverture.jpg')"></div>
 
             <div class="profile-header">
                 <div class="image-wrapper" style="position: relative; display: inline-block;">
