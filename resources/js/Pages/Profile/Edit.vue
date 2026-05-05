@@ -44,11 +44,11 @@ const activeTab = ref('posts');
     <div class="profile-container">
 
         <header>
-            <div class="cover-image"style="background-image: url('/storage/images/couverture.jpg')"></div>
+            <div class="cover-image"style="background-image: url('https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/couverture.jpg')"></div>
 
             <div class="profile-header">
                 <div class="image-wrapper" style="position: relative; display: inline-block;">
-                   <img :src="user.photo || '/storage/images/icone.png'"
+                   <img :src="user.photo || 'https://pub-8333e451e639449b9572090f3589f12e.r2.dev/images/icone.jpg'"
      class="profile" alt="Photo">
 
                     <label for="choisir-photo" class="bouton-icone">
