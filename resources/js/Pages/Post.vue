@@ -51,14 +51,14 @@ const submitForm = ()=>{
         resetLocal()
     }else{
         data.post(route('post.create'),{
-            onSuccess: ()=>{
-                localTitle.value = props.title ?? null;
-                localType.value = props.type ?? null;
-                localImage.value = props.image ?? 'aucune image';
-                localDescription.value = props.description ?? null
+            onSuccess: (page)=>{
+                localTitle.value = page.props.title ?? null;
+                localType.value = page.props.type ?? null;
+                localImage.value = page.props.image ?? 'aucune image';
+                localDescription.value = page.props.description ?? null;
                 url.value= null;
             }
-    });
+        });
     }
 };
 
