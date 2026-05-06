@@ -68,7 +68,8 @@ class PostController extends Controller
         $preview = session()->get('preview');
         if($request->img === null){
             $request->validate([
-                'url' => 'required|unique:posts,url'
+                'url' => 'required|unique:posts,url',
+                'comment' => 'required',
                 ]);
             if(!$preview){
                 $image = $url;
@@ -99,6 +100,7 @@ class PostController extends Controller
         }else{
             $request->validate([
                 'img' => 'required|image|mimes:jpg,png,jpeg,webp,avif,gif,svg|max:2000',
+                'comment' => 'required',
                 ]);
             $image = $request->file('img')->store('images', 'public');
             Post::create([

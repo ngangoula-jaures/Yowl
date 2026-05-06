@@ -102,6 +102,7 @@ const validateForm = ()=>{
         <form @submit.prevent="submitForm" class="space-y-3">
         <div>
             <InputText class="w-full rounded-3xl px-4 py-3" type="text" v-model="data.url" placeholder="Collez une url..."/>
+            <div v-if="data.errors.url" class="text-red-500 text-sm mt-1 px-2">{{ data.errors.url }}</div>
         </div>
 
         <div>
@@ -109,6 +110,7 @@ const validateForm = ()=>{
                 <Textarea v-model="data.comment" rows="5" cols="70" class="w-full rounded-lg px-3 py-2" />
                 <label>Commentaire</label>
             </FloatLabel>
+            <div v-if="data.errors.comment" class="text-red-500 text-sm mt-1 px-2">{{ data.errors.comment }}</div>
         </div>
 
         <div>
@@ -122,7 +124,7 @@ const validateForm = ()=>{
         </div>
     </form>
 
-    <div v-if="url || localImage" class="mt-4 bg-[rgba(0,0,0,0.2)] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)]">
+    <div v-if="url || (localImage && localImage !== 'aucune image')" class="mt-4 bg-[rgba(0,0,0,0.2)] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)]">
         <div v-if="url"><img :src="url" class="w-full object-contain"/></div>
         <div v-if="localImage && localImage !== 'aucune image' && localImage !== '' ">
             <img :src="localImage" :alt="localTitle" class="w-full object-contain" />
