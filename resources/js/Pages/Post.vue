@@ -5,8 +5,10 @@ defineOptions({
 });
 
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import FileUpload from 'primevue/fileupload';
+
+const page = usePage();
 
 const props = defineProps({
     type: String,
@@ -51,7 +53,7 @@ const submitForm = ()=>{
         resetLocal()
     }else{
         data.post(route('post.create'),{
-            onSuccess: (page)=>{
+            onSuccess: ()=>{
                 localTitle.value = page.props.title ?? null;
                 localType.value = page.props.type ?? null;
                 localImage.value = page.props.image ?? 'aucune image';
@@ -98,7 +100,7 @@ const validateForm = ()=>{
 
         <div class="flex gap-3">
             <Button type="submit" label="Envoyer" class="yowl-btn" />
-            <Button v-if="(localImage && localImage !== 'aucune image' && localImage !== '' ) || url" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
+            <Button v-if="(localImage && localImage !== 'aucune image' && localImage !== '' ) || url || data.img" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
         </div>
     </form>
 
