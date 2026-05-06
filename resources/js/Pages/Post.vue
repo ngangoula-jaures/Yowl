@@ -4,7 +4,7 @@ defineOptions({
   layout: Navbar,
 });
 
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import FileUpload from 'primevue/fileupload';
 
@@ -43,8 +43,25 @@ const resetLocal = () => {
     localDescription.value = null
 }
 
+watch(() => data.url, () => {
+    if (localImage.value || url.value) {
+        resetLocal();
+        url.value = null;
+        data.img = null;
+    }
+});
+
+const cancelPost = () => {
+    resetLocal();
+    data.reset();
+    url.value = null;
+    if (fileUploadRef.value) {
+        fileUploadRef.value.clear();
+    }
+};
+
 const submitForm = ()=>{
-    if(data.img != null){
+    if(data.img != null || (localImage.value && localImage.value !== 'aucune image') || url.value){
         return validateForm();
     }
     data.action = 'preview';
@@ -100,7 +117,8 @@ const validateForm = ()=>{
 
         <div class="flex gap-3">
             <Button type="submit" label="Envoyer" class="yowl-btn" />
-            <Button v-if="localImage || url || data.img" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
+            <Button v-if="localImage === 'aucune image'" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
+            <Button v-if="localImage || url || data.img" @click="cancelPost" label="Annuler" class="yowl-btn bg-gray-500 hover:bg-gray-600 border-none" />
         </div>
     </form>
 
