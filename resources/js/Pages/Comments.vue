@@ -112,7 +112,7 @@ const deleteComment= (id)=>{
                     {{ props.post['content'] }}
                 </p>
             </div>
-            <div class="flex items-center justify-between px-4 pb-4 pt-2 border-t border-[rgba(255,255,255,0.03)]">
+            <div class="flex flex-wrap items-center justify-between px-4 pb-4 pt-2 border-t border-[rgba(255,255,255,0.03)] gap-y-2">
                 <div class="flex items-center gap-3">
                     <button class="flex items-center gap-1.5 text-sm text-[rgba(255,255,255,0.75)] hover:text-red-400 transition-colors group">
                         <i class="pi pi-heart group-hover:scale-110 transition-transform" />
@@ -120,12 +120,12 @@ const deleteComment= (id)=>{
                     </button>
                     <span class="flex items-center gap-1.5 text-sm text-[rgba(255,255,255,0.6)]">
                         <i class="pi pi-comment" />
-                        <span>{{ props.numberComments }} commentaires</span>
+                        <span>{{ props.numberComments }} <span class="hidden sm:inline">commentaires</span></span>
                     </span>
                 </div>
                 <button class="flex items-center gap-1.5 text-sm text-[rgba(255,255,255,0.7)] hover:text-white transition-colors">
                     <i class="pi pi-share-alt" />
-                    <span>Partager</span>
+                    <span class="hidden sm:inline">Partager</span>
                 </button>
             </div>
         </div>
@@ -158,19 +158,19 @@ const deleteComment= (id)=>{
                     </div>
 
                     <!-- Actions du commentaire -->
-                    <div class="flex items-center gap-4 pl-11">
+                    <div class="flex items-center gap-2 sm:gap-4 pl-11 flex-wrap mt-1">
                         <!-- Bouton like commentaire — toggle rouge si déjà liké -->
                         <button @click="likerComment(comment['id'])" :class="['flex items-center gap-1.5 text-xs transition-colors group', comment['liked_by_user'] ? 'text-red-400 font-semibold' : 'text-[rgba(255,255,255,0.6)] hover:text-red-400']">
                             <i :class="['pi text-xs group-hover:scale-110 transition-transform', comment['liked_by_user'] ? 'pi-heart-fill' : 'pi-heart']" />
                             <span>{{ comment['likes_count'] }} ❤️</span>
                         </button>
-                        <button @click="deleteComment(comment['id'])" v-if="comment['user']['id'] === props.currentUser['id']" class="text-xs text-[rgba(255,255,255,0.7)] hover:text-white font-medium px-3 py-1.5 rounded-lg border border-[rgba(255,255,255,0.04)] hover:bg-red-500 transition-colors">
+                        <button @click="deleteComment(comment['id'])" v-if="comment['user']['id'] === props.currentUser['id']" class="text-xs text-[rgba(255,255,255,0.7)] hover:text-white font-medium px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-[rgba(255,255,255,0.04)] hover:bg-red-500 transition-colors">
                                     Supprimer
                         </button>
                         <button @click="showDetails(comment['id'])" class="flex items-center gap-1 text-xs text-[rgba(199,63,255,0.95)] hover:text-[rgba(199,63,255,1)] font-medium transition-colors">
-                            <!-- Icone à changer selon l'état : pi-chevron-down (déplié) / pi-chevron-right (replié) -->
                             <i :class="openComment === comment['id'] ? 'pi pi-chevron-down text-xs' : 'pi pi-chevron-right text-xs'" />
-                            {{ openComment === comment['id'] ? 'Masquer les réponses' : 'Voir les réponses' }}
+                            <span class="hidden sm:inline">{{ openComment === comment['id'] ? 'Masquer les réponses' : 'Voir les réponses' }}</span>
+                            <span class="sm:hidden">{{ openComment === comment['id'] ? 'Masquer' : 'Réponses' }}</span>
                         </button>
                     </div>
                 </div>
@@ -245,11 +245,11 @@ const deleteComment= (id)=>{
     <!-- INPUT COMMENTAIRE PRINCIPAL — FIXÉ EN BAS DE PAGE                  -->
     <div class="fixed bottom-0 left-0 right-0 glass border-t border-[rgba(255,255,255,0.04)] shadow-lg z-50">
         <div class="max-w-2xl mx-auto px-4 py-3">
-            <div class="flex items-center gap-3">
-                <img v-if="props.currentUser['photo']" :src="imageUrl(props.currentUser['photo'])" alt="Avatar" class="w-8 h-8 rounded-full object-cover shrink-0" />
-                <div v-else class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">{{ props.currentUser['pseudo'].toUpperCase().substr(0, 2) }}</div>
-                    <input type="text" v-model="postData.comment" placeholder="Ajoute un commentaire sur ce post…" class="flex-1 rounded-full px-4 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition" />
-                <button @click="submitComment" class="yowl-btn"> <i class="pi pi-send" /> Envoyer</button>
+            <div class="flex items-center gap-2 sm:gap-3 w-full">
+                <img v-if="props.currentUser['photo']" :src="imageUrl(props.currentUser['photo'])" alt="Avatar" class="w-8 h-8 rounded-full object-cover shrink-0 hidden sm:block" />
+                <div v-else class="w-8 h-8 rounded-full bg-green-600 items-center justify-center text-white text-xs font-bold shrink-0 hidden sm:flex">{{ props.currentUser['pseudo'].toUpperCase().substr(0, 2) }}</div>
+                    <input type="text" v-model="postData.comment" placeholder="Ajoute un commentaire..." class="flex-1 rounded-full px-3 sm:px-4 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition w-full" />
+                <button @click="submitComment" class="yowl-btn px-3 py-2 sm:px-4 flex items-center justify-center shrink-0"> <i class="pi pi-send" /> <span class="hidden sm:inline ml-1">Envoyer</span></button>
             </div>
         </div>
     </div>

@@ -117,7 +117,7 @@ const validateForm = ()=>{
             <FileUpload ref="fileUploadRef" class="my-3" mode="basic" name="img" accept=".jpg, .jpeg, .png," :maxFileSize="2000000" @select="data.img = $event.files[0]" v-if="localImage && (localImage === 'aucune image' || localImage === '' )" />
         </div>
 
-        <div class="flex gap-3">
+        <div class="flex flex-wrap gap-3">
             <Button type="submit" label="Envoyer" class="yowl-btn" />
             <Button v-if="localImage === 'aucune image'" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
             <Button v-if="localImage || url || data.img" @click="cancelPost" label="Annuler" class="yowl-btn bg-gray-500 hover:bg-gray-600 border-none" />
