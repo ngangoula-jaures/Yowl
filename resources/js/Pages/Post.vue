@@ -53,11 +53,11 @@ const submitForm = ()=>{
         resetLocal()
     }else{
         data.post(route('post.create'),{
-            onSuccess: ()=>{
-                localTitle.value = page.props.title ?? null;
-                localType.value = page.props.type ?? null;
-                localImage.value = page.props.image ?? 'aucune image';
-                localDescription.value = page.props.description ?? null;
+            onSuccess: (pageObj)=>{
+                localTitle.value = pageObj.props.title ?? null;
+                localType.value = pageObj.props.type ?? null;
+                localImage.value = pageObj.props.image ?? 'aucune image';
+                localDescription.value = pageObj.props.description ?? null;
                 url.value= null;
             }
         });
@@ -100,19 +100,20 @@ const validateForm = ()=>{
 
         <div class="flex gap-3">
             <Button type="submit" label="Envoyer" class="yowl-btn" />
-            <Button v-if="(localImage && localImage !== 'aucune image' && localImage !== '' ) || url || data.img" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
+            <Button v-if="localImage || url || data.img" @click="validateForm" label="Enregistrer le Post" class="yowl-btn bg-[rgba(255,122,24,0.9)]" />
         </div>
     </form>
 
-    <div v-if="url || localImage" class="mt-4">
-        <div v-if="url"><img :src="url" class="w-full rounded-lg object-contain"/></div>
-        <div v-if="localImage && localImage !== 'aucune image' && localImage !== '' " class="mt-3">
-            <img :src="localImage" :alt="localTitle" class="w-full rounded-lg object-contain" />
+    <div v-if="url || localImage" class="mt-4 bg-[rgba(0,0,0,0.2)] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.1)]">
+        <div v-if="url"><img :src="url" class="w-full object-contain"/></div>
+        <div v-if="localImage && localImage !== 'aucune image' && localImage !== '' ">
+            <img :src="localImage" :alt="localTitle" class="w-full object-contain" />
         </div>
-        <div class="mt-3">
-            <h3 class="text-lg font-bold text-white">{{ localTitle }}</h3>
-            <p class="text-sm text-[rgba(255,255,255,0.7)]">{{ localType }}</p>
-            <p class="mt-2 text-[rgba(255,255,255,0.8)]">{{ localDescription }}</p>
+        <div class="p-4">
+            <h3 class="text-lg font-bold text-white">{{ localTitle || data.url }}</h3>
+            <p v-if="localType" class="text-sm text-[rgba(255,255,255,0.7)]">{{ localType }}</p>
+            <p v-if="localDescription" class="mt-2 text-[rgba(255,255,255,0.8)]">{{ localDescription }}</p>
+            <p v-if="!localTitle && !localDescription" class="mt-2 text-[rgba(255,255,255,0.6)] italic">Aucune métadonnée trouvée. Vous pouvez quand même enregistrer.</p>
         </div>
     </div>
     </div>

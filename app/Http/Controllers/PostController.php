@@ -17,8 +17,7 @@ class PostController extends Controller
     
         if($request->action === 'preview'){
             $request->validate([
-                'url' => 'required|unique:posts,url',
-                'comment'=> 'required',
+                'url' => 'required',
                 ]);
 
             try{
