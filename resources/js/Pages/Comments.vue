@@ -182,7 +182,7 @@ const deleteComment= (id)=>{
                         <img v-if="props.currentUser['photo']" :src="imageUrl(props.currentUser['photo'])" alt="Avatar" class="w-10 h-10 rounded-full object-cover shrink-0 mr-2" />
                         <div v-else class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white text-sm font-bold shrink-0 mr-2">{{ props.currentUser['pseudo'].toUpperCase().substr(0, 2) }}</div>
                         <div class="flex-1 space-y-2">
-                            <textarea rows="2" v-model="postData.response" placeholder="Répondre à ce commentaire…" class="w-full border border-[rgba(0,0,0,0.06)] rounded-lg px-3 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 resize-none focus:outline-none focus:border-[rgba(199,63,255,0.6)] focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition"></textarea>
+                            <textarea rows="2" v-model="postData.response" @keydown.enter.prevent="submitResponse(comment['id'])" placeholder="Répondre à ce commentaire…" class="w-full border border-[rgba(0,0,0,0.06)] rounded-lg px-3 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 resize-none focus:outline-none focus:border-[rgba(199,63,255,0.6)] focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition"></textarea>
                             <div class="flex justify-end gap-2">
                                 <button @click="submitResponse(comment['id'])" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-4 py-1.5 rounded-lg transition-colors">
                                     Répondre
@@ -248,8 +248,8 @@ const deleteComment= (id)=>{
             <div class="flex items-center gap-2 sm:gap-3 w-full">
                 <img v-if="props.currentUser['photo']" :src="imageUrl(props.currentUser['photo'])" alt="Avatar" class="w-8 h-8 rounded-full object-cover shrink-0 hidden sm:block" />
                 <div v-else class="w-8 h-8 rounded-full bg-green-600 items-center justify-center text-white text-xs font-bold shrink-0 hidden sm:flex">{{ props.currentUser['pseudo'].toUpperCase().substr(0, 2) }}</div>
-                    <input type="text" v-model="postData.comment" placeholder="Ajoute un commentaire..." class="flex-1 rounded-full px-3 sm:px-4 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition w-full" />
-                <button @click="submitComment" class="yowl-btn px-3 py-2 sm:px-4 flex items-center justify-center shrink-0"> <i class="pi pi-send" /> <span class="hidden sm:inline ml-1">Envoyer</span></button>
+                    <input type="text" v-model="postData.comment" @keydown.enter.prevent="submitComment" placeholder="Ajoute un commentaire..." class="flex-1 rounded-full px-3 sm:px-4 py-2 text-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[rgba(199,63,255,0.06)] transition w-full" />
+                <button @click="submitComment" class="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-4 py-2 flex items-center justify-center shrink-0 transition-colors shadow-md"> <i class="pi pi-send" /> <span class="ml-1 text-sm font-medium">Envoyer</span></button>
             </div>
         </div>
     </div>
