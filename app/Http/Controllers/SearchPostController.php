@@ -23,6 +23,13 @@ class SearchPostController extends Controller
                 $builder->whereRaw('LOWER(content) LIKE ?', ['%'.$Search.'%'])
                     ->orWhereRaw('LOWER(url_title) LIKE ?', ['%'.$Search.'%'])
                     ->orWhereRaw('LOWER(url) LIKE ?', ['%'.$Search.'%']);
+                
+                // Gestion des alias d'URL (YouTube)
+                if (str_contains($Search, 'youtube')) {
+                    $builder->orWhereRaw('LOWER(url) LIKE ?', ['%youtu.be%']);
+                } elseif (str_contains($Search, 'youtu.be')) {
+                    $builder->orWhereRaw('LOWER(url) LIKE ?', ['%youtube.com%']);
+                }
             });
         }
 
