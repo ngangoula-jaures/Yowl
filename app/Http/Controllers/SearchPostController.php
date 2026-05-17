@@ -19,9 +19,10 @@ class SearchPostController extends Controller
             ->orderBy('created_at', 'desc');
 
         if ($search) {
-            $query->where(function ($builder) use ($search) {
-                $builder->whereRaw('LOWER(content) LIKE ?', ['%'.$search.'%'])
-                    ->orWhereRaw('LOWER(url_title) LIKE ?', ['%'.$search.'%']);
+            $query->where(function ($builder) use ($Search) {
+                $builder->whereRaw('LOWER(content) LIKE ?', ['%'.$Search.'%'])
+                    ->orWhereRaw('LOWER(url_title) LIKE ?', ['%'.$Search.'%'])
+                    ->orWhereRaw('LOWER(url) LIKE ?', ['%'.$Search.'%']);
             });
         }
 
