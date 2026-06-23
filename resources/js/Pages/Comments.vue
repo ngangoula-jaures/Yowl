@@ -53,8 +53,13 @@ const showDetails = (commentId)=>{
 }
 
 const submitComment= ()=>{
-    if(postData.comment.trim() !== '')
-    postData.post(route('comment.store', {id:props.post['id']}))
+    if(postData.comment.trim() !== '') {
+        postData.post(route('comment.store', {id:props.post['id']}), {
+            onSuccess: () => {
+                postData.reset('comment');
+            }
+        })
+    }
 }
 
 const submitResponse= (id)=>{
